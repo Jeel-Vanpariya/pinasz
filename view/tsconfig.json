@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "module": "ESNext",
+    "target": "ESNext",
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "types": [
+      "node",
+      "jsdom"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    ".eslintrc.*",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "cypress.config.*",
+    "playwright.config.*"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
+  ],
+}

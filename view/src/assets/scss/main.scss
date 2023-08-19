@@ -1,0 +1,16 @@
+//theme
+@import "primevue/resources/themes/lara-light-indigo/theme.css";     
+    
+//core
+@import "primevue/resources/primevue.min.css";
+
+//icons
+@import 'primeicons/primeicons.css';
+
+//Bootstap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+
+body {
+  font-family: var(--font-family);
+}

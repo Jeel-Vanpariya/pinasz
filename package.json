@@ -1,0 +1,25 @@
+{
+  "name": "pinasz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon run app.js"
+  },
+  "author": "Pinasz",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "connect-history-api-fallback": "^2.0.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.8",
+    "dotenv": "^16.3.0",
+    "express": "^4.18.2",
+    "md5": "^2.3.0",
+    "mysql2": "^3.3.5",
+    "handlebars": "^4.7.8",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22",
+    "sequelize": "^6.32.0"
+  }
+}
