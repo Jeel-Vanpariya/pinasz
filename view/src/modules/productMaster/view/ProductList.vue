@@ -5,7 +5,7 @@
         <download-csv :data="[sample_json]" name="sample.csv">
           <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
         </download-csv>
-        <FileUpload class="mx-4" mode="basic" name="demo[]" accept="text/csv" :fileLimit="1" :auto="true" customUpload @uploader="onUpload" chooseLabel="Import CSV" />
+        <FileUpload class="mx-4" mode="basic" name="demo[]" accept="text/csv" :auto="true" customUpload @uploader="onUpload" chooseLabel="Import CSV" />
         <RouterLink :to="{ name: 'AddProduct' }">
           <Button label="Add Product" icon="pi pi-plus" />
         </RouterLink>
@@ -234,10 +234,6 @@ const onUpload = (e: any) => {
             return;
           }
 
-          if (!store.state.container_type.includes(object.container_type)) {
-            toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid container_type found in CSV', life: 3000 });
-            return;
-          }
           for (const key in object) {
             if (object[key].replace(' ', '').length == 0) {
               toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });

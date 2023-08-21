@@ -91,11 +91,26 @@ exports.saveProduct = async ({ body: data }, res) => {
 exports.saveProductFromCSV = async ({ body: data }, res) => {
   try {
     for await (const object of data) {
-      const category = await db.product_category.findOne({ attributes: ["id"], where: { category_name: object.category } });
-      const supplier = await db.suppliers.findOne({ attributes: ["id"], where: { supplier_name: object.supplier } });
-      const container_type = await db.container_types.findOne({ attributes: ["id"], where: { type_name: object.container_type } });
-      const loading_port = await db.loading_port.findOne({ attributes: ["id"], where: { port_name: object.loading_port } });
-      const country = await db.countries.findOne({ attributes: ["id"], where: { name: object.origin } });
+      const category = await db.product_category.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("category_name")), object.category),
+      });
+      const supplier = await db.suppliers.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("supplier_name")), object.supplier),
+      });
+      const container_type = await db.container_types.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("type_name")), object.container_type),
+      });
+      const loading_port = await db.loading_port.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("port_name")), object.loading_port),
+      });
+      const country = await db.countries.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("name")), object.origin),
+      });
       if (category && supplier && container_type && loading_port && country) {
         delete object.category;
         delete object.supplier;
