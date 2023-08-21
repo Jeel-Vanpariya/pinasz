@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.customers, { foreignKey: "country_id" });
       this.hasMany(models.suppliers, { foreignKey: "country_id" });
       this.hasMany(models.products, { foreignKey: "origin" });
+      this.hasMany(models.consignees, { foreignKey: "country_id" });
     }
   }
   countries.init(

@@ -163,6 +163,18 @@ const router = createRouter({
       beforeEnter: checkAuth
     },
     {
+      path: '/add-consignee',
+      name: 'AddConsignee',
+      component: () => import('../modules/consigneeMaster/view/AddConsignee.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/add-consignee/:id',
+      name: 'EditConsignee',
+      component: () => import('../modules/consigneeMaster/view/AddConsignee.vue'),
+      beforeEnter: checkAuth
+    },
+    {
       path: '/users',
       name: 'UsersList',
       component: () => import('../modules/userMaster/view/UsersList.vue'),

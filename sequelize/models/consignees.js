@@ -11,12 +11,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasOne(models.shipments, { foreignKey: "consignee_id" });
+      this.belongsTo(models.countries, { foreignKey: "country_id" });
     }
   }
   consignees.init(
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       consignee_name: { type: DataTypes.STRING(255), allowNull: false },
+      tax_id: { type: DataTypes.STRING(255), allowNull: false },
+      phone_no: { type: DataTypes.STRING(255), allowNull: false },
+      email: { type: DataTypes.STRING(255), allowNull: false },
+      address: { type: DataTypes.TEXT("long"), allowNull: false },
+      state: { type: DataTypes.STRING(255), allowNull: false },
+      city: { type: DataTypes.STRING(255), allowNull: false },
+      pincode: { type: DataTypes.STRING(255), allowNull: false },
+      country_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

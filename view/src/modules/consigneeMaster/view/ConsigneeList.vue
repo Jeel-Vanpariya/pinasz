@@ -1,9 +1,11 @@
 <template>
   <Panel header="Consignees" class="p-4">
     <template #icons>
-      <Button label="Add" icon="pi pi-plus" @click="handleButtonClick" />
+      <RouterLink :to="{ name: 'AddConsignee' }">
+        <Button label="Add" icon="pi pi-plus" />
+      </RouterLink>
     </template>
-    <DataTable :value="data" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="id" removableSort paginator>
+    <DataTable :value="data" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" filterDisplay="row" dataKey="id" scrollable removableSort paginator>
       <template #header>
         <div class="d-flex flex-wrap justify-content-end">
           <span class="p-input-icon-left">
@@ -12,39 +14,72 @@
           </span>
         </div>
       </template>
-      <Column field="consignee_name" header="Consignee Name" sortable>
+      <Column field="consignee_name" header="Consignee Name" sortable style="min-width: 20rem">
         <template #body="{ data }">{{ data.consignee_name }}</template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
-      <Column :exportable="false">
+      <Column field="phone_no" header="Phone no." sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.phone_no }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="email" header="Email" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.email }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="tax_id" header="Tax Id" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.tax_id }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="address" header="Address" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.address }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="pincode" header="Pincode" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.pincode }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="city" header="City" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.city }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="state" header="State" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.state }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="country_name" header="Country" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.country_name }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
-          <div class="text-end">
-            <Button icon="pi pi-pencil" outlined rounded class="mx-3" @click="edit(slotProps.data)" />
+          <div class="d-flex">
+            <RouterLink :to="{ name: 'EditConsignee', params: { id: slotProps.data.id } }">
+              <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
+            </RouterLink>
             <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
           </div>
         </template>
       </Column>
     </DataTable>
   </Panel>
-  <Dialog v-model:visible="visible" header="Add Consignee" modal :draggable="false" :style="{ width: '30vw' }">
-    <Form class="mt-4 consignee__add" :validation-schema="schema" :initialValues="initialValue" @submit="onSubmit">
-      <Field name="id" v-slot="{ value, handleChange }">
-        <InputText type="hidden" :model-value="value" @update:model-value="handleChange" />
-      </Field>
-      <Field name="consignee_name" v-slot="{ value, errorMessage, handleChange }">
-        <span class="p-float-label">
-          <InputText id="consignee_name" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-          <label for="consignee_name">Consignee Name</label>
-        </span>
-        <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-      </Field>
-      <div class="d-flex justify-content-end mt-4 pe-2">
-        <Button label="Save" icon="pi pi-save" type="submit" />
-      </div>
-    </Form>
-  </Dialog>
   <ConfirmDialog />
   <Toast />
 </template>
@@ -59,27 +94,21 @@ import { onMounted, ref } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import ConfirmDialog from 'primevue/confirmdialog';
 import store from '../../../stores/index';
-import Dialog from 'primevue/dialog';
-import { Field, Form } from 'vee-validate';
-import * as yup from 'yup';
-import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
 
 const confirm = useConfirm();
-const toast = useToast();
 const data = ref([]);
-const visible = ref(false);
-const schema = yup.object({
-  id: yup.mixed(),
-  consignee_name: yup.string().required('Please enter consignee name')
-});
-const initialValue = ref({
-  id: '0',
-  consignee_name: ''
-});
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  consignee_name: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  consignee_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  phone_no: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  tax_id: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  address: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  pincode: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  city: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  state: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  country_name: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
 onMounted(async () => {
@@ -93,31 +122,6 @@ const getConsignee = async () => {
   if (res.status == 'success') {
     data.value = res.data;
   }
-};
-
-const handleButtonClick = () => {
-  initialValue.value = {
-    id: '0',
-    consignee_name: ''
-  };
-  visible.value = true;
-};
-
-const onSubmit = async (data: any, { resetForm }: any) => {
-  const res = await store.dispatch('saveConsignee', data);
-  if (res.status == 'success') {
-    resetForm();
-    visible.value = false;
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Consignee successfully saved', life: 2500 });
-    await getConsignee();
-    return;
-  }
-  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to save operation', life: 2500 });
-};
-
-const edit = (data: any) => {
-  initialValue.value = data;
-  visible.value = true;
 };
 
 const confirmDelete = (id: number) => {
