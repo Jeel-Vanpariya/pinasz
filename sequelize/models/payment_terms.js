@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       advance_percentage: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+      advance_text: { type: DataTypes.STRING(255), allowNull: false },
       pending_percentage: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+      pending_text: { type: DataTypes.STRING(255), allowNull: false },
     },
     {
       sequelize,

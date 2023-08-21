@@ -13,7 +13,7 @@
         </div>
       </template>
       <Column field="term_name" header="Term Name" sortable>
-        <template #body="{ data }">{{ `${data.advance_percentage}% advanced - ${data.pending_percentage}% pending` }}</template>
+        <template #body="{ data }">{{ `${data.advance_percentage}% ${data.advance_text} - ${data.pending_percentage}% ${data.pending_text}` }}</template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
@@ -41,10 +41,28 @@
           </Field>
         </div>
         <div class="col-md-6">
+          <Field name="advance_text" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <InputText id="advance_text" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="advance_text">Free text</label>
+            </span>
+            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+        <div class="col-md-6">
           <Field name="pending_percentage" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown id="pending_percentage" :model-value="value" :options="percentage" editable :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
               <label for="pending_percentage">Pending %</label>
+            </span>
+            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+        <div class="col-md-6">
+          <Field name="pending_text" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <InputText id="pending_text" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="pending_text">Free text</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
@@ -89,13 +107,17 @@ const percentage = ref([]);
 const visible = ref(false);
 const schema = yup.object({
   id: yup.mixed(),
-  advance_percentage: yup.number().required('Please select advance percentage'),
-  pending_percentage: yup.number().required('Please select pending percentage')
+  advance_percentage: yup.number().required('Please select percentage'),
+  advance_text: yup.string().required('Please enter free text'),
+  pending_percentage: yup.number().required('Please select percentage'),
+  pending_text: yup.string().required('Please enter free text')
 });
 const initialValue = ref({
   id: '0',
   advance_percentage: '',
-  pending_percentage: ''
+  advance_text: '',
+  pending_percentage: '',
+  pending_text: ''
 });
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -118,7 +140,9 @@ const handleButtonClick = () => {
   initialValue.value = {
     id: '0',
     advance_percentage: '',
-    pending_percentage: ''
+    advance_text: '',
+    pending_percentage: '',
+    pending_text: ''
   };
   visible.value = true;
 };

@@ -912,7 +912,7 @@ const getPaymentTerm = async () => {
   const res = await store.dispatch('getPaymentTerm');
   if (res.status == 'success' && res.data.length > 0) {
     for (const object of res.data) {
-      object.payment_term = `${object.advance_percentage}% advanced - ${object.pending_percentage}% pending`;
+      object.payment_term = `${object.advance_percentage}% ${object.advance_text} - ${object.pending_percentage}% ${object.pending_text}`;
     }
     paymentTerm.value = res.data;
   }

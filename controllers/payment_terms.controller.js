@@ -2,7 +2,7 @@ const db = require("../sequelize/models/index.js");
 
 exports.savePaymentTerm = async ({ body: data }, res) => {
   try {
-    await db.payment_terms.bulkCreate([data], { updateOnDuplicate: ["advance_percentage", "pending_percentage"] });
+    await db.payment_terms.bulkCreate([data], { updateOnDuplicate: ["advance_percentage", "pending_percentage", "advance_text", "pending_text"] });
     res.send({ status: "success", message: "Payment term saved successfully" });
   } catch (error) {
     res.status(200).send({ status: "error", message: error });
