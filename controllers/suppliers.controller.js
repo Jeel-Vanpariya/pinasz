@@ -3,8 +3,6 @@ const db = require("../sequelize/models/index.js");
 
 exports.saveSupplier = async ({ body: data }, res) => {
   try {
-    data.payment_term_id = data.payment_terms;
-    delete data.payment_terms;
     if (typeof data.id == "string") {
       delete data.id;
       response = await db.suppliers.create(data);
