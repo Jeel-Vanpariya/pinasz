@@ -63,7 +63,7 @@
               <Dropdown
                 :model-value="value"
                 :options="containerTypes"
-                editable
+                filter
                 id="container_type"
                 option-label="type_name"
                 option-value="id"
@@ -127,16 +127,7 @@
         <div class="col-md">
           <Field name="origin" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
-              <Dropdown
-                id="origin"
-                editable
-                :model-value="value"
-                :options="countries"
-                option-label="name"
-                option-value="id"
-                :class="{ 'p-invalid': errorMessage }"
-                @update:model-value="handleChange"
-              />
+              <Dropdown id="origin" filter :model-value="value" :options="countries" option-label="name" option-value="id" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
               <label for="origin">Origin</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -148,7 +139,7 @@
               <Dropdown
                 :model-value="value"
                 :options="loadingPorts"
-                editable
+                filter
                 id="container_type"
                 option-label="port_name"
                 option-value="id"
@@ -172,10 +163,19 @@
           </Field>
         </div>
         <div class="col-md">
-          <Field name="currency" v-slot="{ value, errorMessage, handleChange }">
+          <Field name="currency_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
-              <InputText id="currency" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-              <label for="currency">Currency</label>
+              <Dropdown
+                :model-value="value"
+                :options="currencies"
+                filter
+                id="currency_id"
+                option-label="name"
+                option-value="id"
+                :class="{ 'p-invalid': errorMessage }"
+                @update:model-value="handleChange"
+              />
+              <label for="currency_id">Currency</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
@@ -247,11 +247,12 @@ const containerTypes = ref([]);
 const loadingPorts = ref([]);
 const suppliers = ref([]);
 const countries = ref([]);
+const currencies = ref([]);
 const schema = yup.object({
   item_no: yup.string().required('Please enter item no.'),
   category: yup.object().required('Please select a category'),
   item_name: yup.string().required('Please enter item name'),
-  additions_details: yup.string().required('Please enter additional details'),
+  additions_details: yup.string(),
   brand: yup.string().required('Please enter brand'),
   container_type: yup.number().required('Please select a container type'),
   pack: yup.string().required('Please enter pack'),
@@ -262,7 +263,7 @@ const schema = yup.object({
   origin: yup.number().required('Please select origin'),
   loading_port: yup.number().required('Please select loading port'),
   last_fob: yup.number().required('Please enter last FOB'),
-  currency: yup.string().required('Please enter currency'),
+  currency_id: yup.number().required('Please select currency'),
   date: yup.date().required('Please select a date'),
   supplier: yup.array().min(1).required('Please select a supplier')
 });
@@ -274,6 +275,7 @@ onMounted(async () => {
   await getLoadingPort();
   await getProductSuppliers();
   await getCountries();
+  await getCurrencies();
   form.value.resetForm();
   if (route.params.id) getProductForEdit();
   store.state.spinner = false;
@@ -288,6 +290,17 @@ const getCountries = async () => {
     return;
   }
   toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to fetch countries', life: 2500 });
+};
+
+const getCurrencies = async () => {
+  store.state.spinner = true;
+  const res = await store.dispatch('getCurrencies');
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    currencies.value = res.data;
+    return;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to fetch currencies', life: 2500 });
 };
 
 const getProductCategories = async () => {
@@ -334,6 +347,7 @@ const getProductForEdit = async () => {
     res.data.container_type = res.data.container_type_id;
     res.data.loading_port = res.data.loading_port_id;
     res.data.date = dayjs(res.data.date).format('MM/DD/YYYY');
+    if (!res.data.additions_details) delete res.data.additions_details;
     form.value.setValues(res.data);
     return;
   }

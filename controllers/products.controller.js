@@ -111,7 +111,11 @@ exports.saveProductFromCSV = async ({ body: data }, res) => {
         attributes: ["id"],
         where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("name")), object.origin),
       });
-      if (category && supplier && container_type && loading_port && country) {
+      const currency = await db.currencies.findOne({
+        attributes: ["id"],
+        where: db.sequelize.where(db.sequelize.fn("lower", db.sequelize.col("name")), object.currency),
+      });
+      if (category && supplier && container_type && loading_port && country && currency) {
         delete object.category;
         delete object.supplier;
         delete object.container_type;
@@ -119,6 +123,7 @@ exports.saveProductFromCSV = async ({ body: data }, res) => {
         object.container_type_id = container_type.id;
         object.loading_port_id = loading_port.id;
         object.origin = country.id;
+        object.currency_id = currency.id;
         const response = await db.products.create(object);
         await db.product_category_map.create({ product_id: response.id, category_id: category.id });
         await db.product_supplier_map.create({ product_id: response.id, supplier_id: supplier.id });
@@ -141,6 +146,7 @@ exports.getProducts = async (req, res) => {
           [db.sequelize.col("container_type.type_name"), "container_type"],
           [db.sequelize.col("loading_port.port_name"), "loading_port"],
           [db.sequelize.col("country.name"), "origin"],
+          [db.sequelize.col("currency.name"), "currency"],
         ],
       },
       raw: true,
@@ -175,6 +181,10 @@ exports.getProducts = async (req, res) => {
         },
         {
           model: db.countries,
+          attributes: [],
+        },
+        {
+          model: db.currencies,
           attributes: [],
         },
       ],

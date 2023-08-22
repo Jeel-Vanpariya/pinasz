@@ -34,7 +34,7 @@
         <div class="col-md-6">
           <Field name="advance_percentage" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
-              <Dropdown id="advance_percentage" :model-value="value" :options="percentage" editable :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <Dropdown id="advance_percentage" :model-value="value" :options="percentage" filter :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
               <label for="advance_percentage">Advance %</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -52,7 +52,7 @@
         <div class="col-md-6">
           <Field name="pending_percentage" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
-              <Dropdown id="pending_percentage" :model-value="value" :options="percentage" editable :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <Dropdown id="pending_percentage" :model-value="value" :options="percentage" filter :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
               <label for="pending_percentage">Pending %</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>

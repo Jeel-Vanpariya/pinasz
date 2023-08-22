@@ -42,7 +42,7 @@
         </template>
       </Column>
       <Column field="long_name" header="Long Name" sortable style="min-width: 20rem">
-        <template #body="{ data }">{{ `${data.brand} ${data.item_name} ${data.pack}x${data.pack_size} ${data.umo}` }}</template>
+        <template #body="{ data }">{{ `${data.brand} ${data.item_name} ${data.pack}x${data.pack_size} ${data.uom}` }}</template>
       </Column>
       <Column field="brand" header="Brand" sortable style="min-width: 20rem">
         <template #body="{ data }">{{ data.brand }}</template>

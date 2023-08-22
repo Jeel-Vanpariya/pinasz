@@ -24,6 +24,14 @@ export default {
       return { status: 'error', data: error };
     }
   },
+  async getCurrencies() {
+    try {
+      const response = await axios.post('get-currencies');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   ...categoryMasterActions,
   ...productsActions,
   ...supplierMasterActions,

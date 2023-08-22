@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.container_types, { foreignKey: "container_type_id" });
       this.belongsTo(models.loading_port, { foreignKey: "loading_port_id" });
       this.belongsTo(models.countries, { foreignKey: "origin" });
+      this.belongsTo(models.currencies, { foreignKey: "currency_id" });
     }
   }
   products.init(
@@ -35,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       origin: { type: DataTypes.INTEGER, allowNull: false },
       loading_port_id: { type: DataTypes.INTEGER, allowNull: false },
       last_fob: { type: DataTypes.STRING(512), allowNull: false },
-      currency: { type: DataTypes.STRING(512), allowNull: false },
+      currency_id: { type: DataTypes.INTEGER, allowNull: false },
       date: { type: DataTypes.DATE, allowNull: false },
     },
     {

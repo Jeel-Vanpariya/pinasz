@@ -60,7 +60,7 @@
             <span class="p-float-label">
               <Dropdown
                 id="country_id"
-                editable
+                filter
                 :model-value="value"
                 :options="countries"
                 option-label="name"
