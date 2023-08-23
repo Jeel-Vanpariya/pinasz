@@ -11,13 +11,17 @@
     </template>
     <Form ref="form" :validation-schema="schema" @submit="onSubmit">
       <TabView v-model:activeIndex="active">
-        <TabPanel header="Pre Shipment">
+        <TabPanel>
+          <template #header>
+            <span>Pre Shipment</span>
+            <i class="mdi mdi-multiplication ms-1 text-danger" />
+          </template>
           <div class="row mt-4 add__shipment">
             <div class="col-md-4">
               <Field name="po_no" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputText id="po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="po_no">PO Number</label>
+                  <label for="po_no">PO Number <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -27,7 +31,7 @@
               <Field name="supp_po_date" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Calendar id="supp_po_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="supp_po_date">Supp PO Date</label>
+                  <label for="supp_po_date">Supp PO Date <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -46,7 +50,7 @@
                     @update:model-value="handleChange"
                     @change="handleSupplierChange"
                   />
-                  <label for="supplier_id">Supplier</label>
+                  <label for="supplier_id">Supplier <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -65,7 +69,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="invoicing_party_id">Invoicing Party</label>
+                  <label for="invoicing_party_id">Invoicing Party <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -75,7 +79,7 @@
               <Field name="our_po_date" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Calendar id="our_po_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="our_po_date">Our PO Date</label>
+                  <label for="our_po_date">Our PO Date <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -85,7 +89,7 @@
               <Field name="our_po_no" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputText id="our_po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="our_po_no">Our PO No.</label>
+                  <label for="our_po_no">Our PO No. <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -96,7 +100,7 @@
               <Field name="buyer_id" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Dropdown id="buyer_id" :model-value="value" :options="buyers" optionLabel="buyer_name" optionValue="id" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="buyer_id">Buyer</label>
+                  <label for="buyer_id">Buyer <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -114,7 +118,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="customer_id">Customer</label>
+                  <label for="customer_id">Customer <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -124,7 +128,7 @@
               <Field name="cust_po_no" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Chips id="cust_po_no" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="cust_po_no">Cust PO No.</label>
+                  <label for="cust_po_no">Cust PO No. <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -143,7 +147,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="payment_term_id">Payment Terms</label>
+                  <label for="payment_term_id">Payment Terms <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -153,7 +157,7 @@
               <Field name="supp_po_value" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputText id="supp_po_value" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="supp_po_value">Supp PO Value</label>
+                  <label for="supp_po_value">Supp PO Value <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -163,7 +167,7 @@
               <Field name="currency" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Dropdown id="currency" :model-value="value" :options="store.state.currency" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="currency">Currency</label>
+                  <label for="currency">Currency <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -182,7 +186,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="loading_port_id">Loading Ports</label>
+                  <label for="loading_port_id">Loading Ports <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -200,7 +204,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="destination_port_id">Destination Port</label>
+                  <label for="destination_port_id">Destination Port <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -218,7 +222,7 @@
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
-                  <label for="final_destination_id">Final Destination</label>
+                  <label for="final_destination_id">Final Destination <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -229,7 +233,7 @@
               <Field name="number_of_container" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputText id="number_of_container" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="number_of_container">Number of containers</label>
+                  <label for="number_of_container">Number of containers <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -239,7 +243,7 @@
               <Field name="sup_po_no" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputText id="sup_po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="sup_po_no">Sup PO No.</label>
+                  <label for="sup_po_no">Sup PO No. <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -308,7 +312,10 @@
             </DataTable>
           </div>
         </TabPanel>
-        <TabPanel header="Finance">
+        <TabPanel>
+          <template #header>
+            <span>Finance</span>
+          </template>
           <div class="row mt-4 add__shipment">
             <div class="col-md-4">
               <Field name="adv_rec_date" v-slot="{ value, errorMessage, handleChange }">
@@ -333,7 +340,7 @@
             <div class="col-md-4">
               <Field name="purchase_invoice" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
-                  <Calendar id="purchase_invoice" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <InputText id="purchase_invoice" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
                   <label for="purchase_invoice">Purchase Invoice</label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -450,6 +457,16 @@
             </div>
 
             <div class="col-md-4">
+              <Field name="payment_request_lot" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <InputText id="payment_request_lot" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <label name="payment_request_lot">Payment request Lot</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
+
+            <div class="col-md-4 d-none">
               <Field name="commission" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputNumber
@@ -467,7 +484,7 @@
               </Field>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4 d-none">
               <Field name="share" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <InputNumber
@@ -485,19 +502,12 @@
               </Field>
             </div>
           </div>
-          <div class="row mt-4 add__shipment">
-            <div class="col-md-4">
-              <Field name="payment_request_lot" v-slot="{ value, errorMessage, handleChange }">
-                <span class="p-float-label">
-                  <InputText id="payment_request_lot" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label name="payment_request_lot">Payment request Lot</label>
-                </span>
-                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-              </Field>
-            </div>
-          </div>
         </TabPanel>
-        <TabPanel header="Logistics">
+        <TabPanel>
+          <template #header>
+            <span>Logistics</span>
+            <i class="mdi mdi-multiplication ms-1 text-danger" />
+          </template>
           <div class="row mt-4 add__shipment">
             <div class="col-md-4">
               <Field name="dhl_no" v-slot="{ value, errorMessage, handleChange }">
@@ -513,7 +523,7 @@
               <Field name="inspection" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Dropdown id="inspection" :options="store.state.inspection" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="inspection">Inspection</label>
+                  <label for="inspection">Inspection <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -661,6 +671,17 @@
               </Field>
             </div>
           </div>
+          <div class="row mt-4 add__shipment">
+            <div class="col-md-12">
+              <Field name="remarks" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <Textarea id="remarks" :model-value="value" autoResize rows="3" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <label for="remarks">Remarks</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
+          </div>
           <Divider />
           <Form :validation-schema="containerSchema" @submit="handleContainerAdd">
             <div class="row mt-5 add__shipment">
@@ -761,6 +782,7 @@
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
+import Textarea from 'primevue/textarea';
 import Calendar from 'primevue/calendar';
 import InputNumber from 'primevue/inputnumber';
 import TabView from 'primevue/tabview';
@@ -819,7 +841,7 @@ const schema = yup.object({
 
   adv_rec_date: yup.date(),
   adv_pay_date: yup.date(),
-  purchase_invoice: yup.date(),
+  purchase_invoice: yup.string(),
   sale_invoice_val: yup.number(),
   sale_invoice_val_currency: yup.string(),
   sale_inv_no: yup.string(),
@@ -847,7 +869,8 @@ const schema = yup.object({
   scan_bl_date: yup.date(),
   stuf_photo: yup.date(),
   est_arriv_date: yup.date(),
-  bl_no: yup.string()
+  bl_no: yup.string(),
+  remarks: yup.string()
 });
 const containerSchema = yup.object({
   container_no: yup.string().required('Please enter container'),
@@ -966,8 +989,6 @@ const getShipmentForEdit = async () => {
     else delete res.data.adv_rec_date;
     if (res.data.adv_pay_date) res.data.adv_pay_date = dayjs(res.data.adv_pay_date).format('MM/DD/YYYY');
     else delete res.data.adv_pay_date;
-    if (res.data.purchase_invoice) res.data.purchase_invoice = dayjs(res.data.purchase_invoice).format('MM/DD/YYYY');
-    else delete res.data.purchase_invoice;
     if (res.data.final_rec_date) res.data.final_rec_date = dayjs(res.data.final_rec_date).format('MM/DD/YYYY');
     else delete res.data.final_rec_date;
     if (res.data.final_pay_date) res.data.final_pay_date = dayjs(res.data.final_pay_date).format('MM/DD/YYYY');
@@ -995,6 +1016,7 @@ const getShipmentForEdit = async () => {
     if (!res.data.s_f_inv_no) delete res.data.s_f_inv_no;
     if (!res.data.s_final_inv_value) delete res.data.s_final_inv_value;
     if (!res.data.s_final_inv_value_currency) delete res.data.s_final_inv_value_currency;
+    if (!res.data.purchase_invoice) delete res.data.purchase_invoice;
     if (!res.data.percentage) delete res.data.percentage;
     if (!res.data.commission) delete res.data.commission;
     if (!res.data.share) delete res.data.share;
@@ -1005,6 +1027,7 @@ const getShipmentForEdit = async () => {
     if (!res.data.freight_booking_no) delete res.data.freight_booking_no;
     if (!res.data.shipping_line) delete res.data.shipping_line;
     if (!res.data.bl_no) delete res.data.bl_no;
+    if (!res.data.remarks) delete res.data.remarks;
 
     form.value.setValues(res.data);
     products.value = suppliers.value.filter((item) => item.id == res.data.supplier_id)[0].items;
@@ -1101,17 +1124,25 @@ const onSubmit = async (data: any, { resetForm }: any) => {
     error = true;
     return;
   }
+  let total = 0;
   for (const object of po_details.value) {
     if (object.qty == 0) {
       toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please enter quantity in container wise', life: 2500 });
       error = true;
       return;
-    } else if (object.uom.replace(' ', '').length == 0) {
-      toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please enter UOM in container wise', life: 2500 });
+    }
+    if (object.price == 0) {
+      toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please enter price in container wise', life: 2500 });
       error = true;
       return;
     }
+    total += object.qty * object.price;
   }
+  if (data.percentage) {
+    data.commission = (total * (data.percentage / 100)).toFixed(2);
+    data.share = (data.commission / 2).toFixed(2);
+  }
+
   if (!error) {
     const res = await store.dispatch('saveShipment', {
       id: route.params.id ? Number(route.params.id) : '0',

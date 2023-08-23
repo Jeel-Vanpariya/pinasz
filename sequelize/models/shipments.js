@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       number_of_container: DataTypes.STRING(512),
       adv_rec_date: DataTypes.DATE,
       adv_pay_date: DataTypes.DATE,
-      purchase_invoice: DataTypes.DATE,
+      purchase_invoice: DataTypes.STRING(512),
       sale_invoice_val: DataTypes.INTEGER,
       sale_invoice_val_currency: DataTypes.STRING(512),
       sale_inv_no: DataTypes.STRING(512),
@@ -74,6 +74,7 @@ module.exports = (sequelize, DataTypes) => {
       stuf_photo: DataTypes.DATE,
       est_arriv_date: DataTypes.DATE,
       bl_no: DataTypes.STRING(512),
+      remarks: DataTypes.TEXT("long"),
     },
     {
       sequelize,

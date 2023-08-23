@@ -129,7 +129,7 @@
         </template>
       </Column>
       <Column field="purchase_invoice" header="Purchase Invoice" sortable style="min-width: 20rem">
-        <template #body="{ data }">{{ data.purchase_invoice ? dayjs(data.purchase_invoice).format('DD-MM-YYYY') : '' }}</template>
+        <template #body="{ data }">{{ data.purchase_invoice }}</template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
@@ -290,6 +290,12 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
+      <Column field="remarks" header="Remarks" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.remarks }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
@@ -437,7 +443,8 @@ const filters = ref({
   scan_bl_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
   stuf_photo: { value: null, matchMode: FilterMatchMode.CONTAINS },
   est_arriv_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  bl_no: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  bl_no: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  remarks: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 const poFilters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },

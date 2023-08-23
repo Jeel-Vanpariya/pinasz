@@ -12,6 +12,7 @@ import axios from 'axios';
 import Tooltip from 'primevue/tooltip';
 import FocusTrap from 'primevue/focustrap';
 import JsonCSV from 'vue-json-csv';
+import '@mdi/font/css/materialdesignicons.css';
 
 const app = createApp(App);
 
