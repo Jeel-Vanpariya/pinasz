@@ -248,6 +248,45 @@
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
             </div>
+
+            <div class="col-md-4">
+              <Field name="incoterm_id" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <Dropdown
+                    id="incoterm_id"
+                    :model-value="value"
+                    :options="incoterm"
+                    optionLabel="name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
+                  <label for="incoterm_id">Incoterm</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
+          </div>
+          <div class="row mt-4 add__shipment">
+            <div class="col-md-4">
+              <Field name="mode_of_transport_id" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <Dropdown
+                    id="mode_of_transport_id"
+                    :model-value="value"
+                    :options="mode_of_transport"
+                    optionLabel="name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
+                  <label for="mode_of_transport_id">Mode of Transport</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
           </div>
           <Divider />
           <Form :validation-schema="poSchema" @submit="handlePOAdd">
@@ -501,6 +540,24 @@
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
             </div>
+            <div class="col-md-4">
+              <Field name="shipping_line_id" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <Dropdown
+                    id="shipping_line_id"
+                    :model-value="value"
+                    :options="shipping_line"
+                    optionLabel="name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
+                  <label for="shipping_line_id">Shipping Line</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
           </div>
         </TabPanel>
         <TabPanel>
@@ -580,16 +637,6 @@
           </div>
           <div class="row mt-4 add__shipment">
             <div class="col-md-4">
-              <Field name="shipping_line" v-slot="{ value, errorMessage, handleChange }">
-                <span class="p-float-label">
-                  <InputText id="shipping_line" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="shipping_line">Shipping Line</label>
-                </span>
-                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-              </Field>
-            </div>
-
-            <div class="col-md-4">
               <Field name="estimated_dob" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
                   <Calendar id="estimated_dob" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -604,6 +651,16 @@
                 <span class="p-float-label">
                   <InputText id="freight_booking_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
                   <label for="freight_booking_no">Freight Booking No.</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
+
+            <div class="col-md-4">
+              <Field name="bl_no" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <InputText id="bl_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <label for="bl_no">BL No.</label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -656,16 +713,6 @@
                 <span class="p-float-label">
                   <Calendar id="est_arriv_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
                   <label for="est_arriv_date">Est Arriv Date</label>
-                </span>
-                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-              </Field>
-            </div>
-
-            <div class="col-md-4">
-              <Field name="bl_no" v-slot="{ value, errorMessage, handleChange }">
-                <span class="p-float-label">
-                  <InputText id="bl_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="bl_no">BL No.</label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -820,6 +867,9 @@ const po_details = ref([]) as any;
 const container_details = ref([]) as any;
 const containerTypes = ref([]);
 const products = ref([]);
+const shipping_line = ref([]);
+const incoterm = ref([]);
+const mode_of_transport = ref([]);
 const schema = yup.object({
   po_no: yup.string().required('Please enter po no.'),
   supp_po_date: yup.date().required('Please select a supplier po date'),
@@ -838,6 +888,8 @@ const schema = yup.object({
   destination_port_id: yup.number().required('Please select a destination port'),
   final_destination_id: yup.number().required('Please select a final destination'),
   number_of_container: yup.string().required('Please enter container'),
+  incoterm_id: yup.number(),
+  mode_of_transport_id: yup.number(),
 
   adv_rec_date: yup.date(),
   adv_pay_date: yup.date(),
@@ -854,6 +906,7 @@ const schema = yup.object({
   commission: yup.number(),
   share: yup.number(),
   payment_request_lot: yup.string(),
+  shipping_line_id: yup.number(),
 
   dhl_no: yup.string(),
   inspection: yup.string().required('Please select a inspection'),
@@ -862,7 +915,6 @@ const schema = yup.object({
   consignee_id: yup.number(),
   freight_booking_date: yup.date(),
   freight_booking_no: yup.string(),
-  shipping_line: yup.string(),
   estimated_dob: yup.date(),
   revised_dob: yup.date(),
   actual_dob: yup.date(),
@@ -900,6 +952,9 @@ const refreshMasters = async () => {
   await getFinalDestination();
   await getConsignee();
   await getContainerType();
+  await getShippingLine();
+  await getIncoterm();
+  await getModeOfTransport();
   store.state.spinner = false;
 };
 
@@ -976,6 +1031,27 @@ const getContainerType = async () => {
   }
 };
 
+const getShippingLine = async () => {
+  const res = await store.dispatch('getShippingLine');
+  if (res.status == 'success') {
+    shipping_line.value = res.data;
+  }
+};
+
+const getIncoterm = async () => {
+  const res = await store.dispatch('getIncoterm');
+  if (res.status == 'success') {
+    incoterm.value = res.data;
+  }
+};
+
+const getModeOfTransport = async () => {
+  const res = await store.dispatch('getModeOfTransport');
+  if (res.status == 'success') {
+    mode_of_transport.value = res.data;
+  }
+};
+
 const getShipmentForEdit = async () => {
   store.state.spinner = true;
   const res = await store.dispatch('getShipmentForEdit', { id: route.params.id });
@@ -1025,7 +1101,7 @@ const getShipmentForEdit = async () => {
     if (!res.data.cod_number) delete res.data.cod_number;
     if (!res.data.consignee_id) delete res.data.consignee_id;
     if (!res.data.freight_booking_no) delete res.data.freight_booking_no;
-    if (!res.data.shipping_line) delete res.data.shipping_line;
+    if (!res.data.shipping_line_id) delete res.data.shipping_line_id;
     if (!res.data.bl_no) delete res.data.bl_no;
     if (!res.data.remarks) delete res.data.remarks;
 
@@ -1151,8 +1227,8 @@ const onSubmit = async (data: any, { resetForm }: any) => {
       container_details: container_details.value
     });
     if (res.status == 'success') {
+      toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
       resetForm();
-      toast.add({ severity: 'success', summary: 'Success Message', detail: 'Shipment successfully added', life: 2500 });
       onCancel();
       return;
     }

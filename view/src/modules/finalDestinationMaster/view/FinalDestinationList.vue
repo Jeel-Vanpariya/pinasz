@@ -106,9 +106,9 @@ const handleButtonClick = () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const res = await store.dispatch('saveFinalDestination', data);
   if (res.status == 'success') {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
     resetForm();
     visible.value = false;
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Final destination successfully saved', life: 2500 });
     await getFinalDestination();
     return;
   }

@@ -19,9 +19,13 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.destination_port, { foreignKey: "destination_port_id" });
       this.belongsTo(models.final_destinations, { foreignKey: "final_destination_id" });
       this.belongsTo(models.consignees, { foreignKey: "consignee_id" });
+      this.belongsTo(models.shipping_line, { foreignKey: "shipping_line_id" });
+      this.belongsTo(models.incoterm, { foreignKey: "incoterm_id" });
+      this.belongsTo(models.mode_of_transport, { foreignKey: "mode_of_transport_id" });
       this.hasMany(models.shipment_po_details, { foreignKey: "shipment_id" });
       this.hasMany(models.shipments_logs, { foreignKey: "shipment_id" });
       this.hasMany(models.shipment_container_details, { foreignKey: "shipment_id" });
+
     }
   }
   shipments.init(
@@ -66,7 +70,9 @@ module.exports = (sequelize, DataTypes) => {
       consignee_id: DataTypes.INTEGER,
       freight_booking_date: DataTypes.DATE,
       freight_booking_no: DataTypes.STRING(512),
-      shipping_line: DataTypes.STRING(512),
+      shipping_line_id: DataTypes.INTEGER,
+      incoterm_id: DataTypes.INTEGER,
+      mode_of_transport_id: DataTypes.INTEGER,
       estimated_dob: DataTypes.DATE,
       revised_dob: DataTypes.DATE,
       actual_dob: DataTypes.DATE,

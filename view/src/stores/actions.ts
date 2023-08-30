@@ -32,6 +32,30 @@ export default {
       return { status: 'error', data: error };
     }
   },
+  async getShippingLine() {
+    try {
+      const response = await axios.post('get-shipping-line');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
+  async getIncoterm() {
+    try {
+      const response = await axios.post('get-incoterm');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
+  async getModeOfTransport() {
+    try {
+      const response = await axios.post('get-mode-of-transport');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   ...categoryMasterActions,
   ...productsActions,
   ...supplierMasterActions,

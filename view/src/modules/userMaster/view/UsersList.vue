@@ -176,8 +176,8 @@ const onSubmit = async (data: any, { resetForm }: any) => {
   if (res.status == 'success') {
     if (res.message) toast.add({ severity: 'warn', summary: 'Warning Message', detail: res.message, life: 2500 });
     else {
+      toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
       resetForm();
-      toast.add({ severity: 'success', summary: 'Success Message', detail: 'User saved successfully', life: 2500 });
       await getUsers();
     }
     return;

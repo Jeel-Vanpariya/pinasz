@@ -109,9 +109,9 @@ const handleButtonClick = () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const res = await store.dispatch('saveCategory', data);
   if (res.status == 'success') {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
     resetForm();
     visible.value = false;
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Category successfully saved', life: 2500 });
     await getCategory();
     return;
   }

@@ -357,9 +357,9 @@ const getProductForEdit = async () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const res = await store.dispatch('saveProduct', { id: route.params.id ? route.params.id : '0', ...data });
   if (res.status == 'success') {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
     resetForm();
     onCancel();
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Product successfully saved', life: 2500 });
     return;
   }
   toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to save operation', life: 2500 });

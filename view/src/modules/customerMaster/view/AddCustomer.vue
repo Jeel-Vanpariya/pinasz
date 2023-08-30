@@ -165,8 +165,8 @@ const getCustomerForEdit = async () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const res = await store.dispatch('saveCustomer', { id: route.params.id ? route.params.id : '0', ...data });
   if (res.status == 'success') {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
     resetForm();
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Customer successfully saved', life: 2500 });
     onCancel();
     return;
   }

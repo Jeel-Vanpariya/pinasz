@@ -8,7 +8,8 @@ const store = createStore({
   state() {
     return {
       spinner: ref(false) as unknown as boolean,
-      currency: ['USD', 'Euro']
+      currency: ['USD', 'Euro'],
+      inspection: ['NO', 'BIVAC'],
     };
   },
   mutations,

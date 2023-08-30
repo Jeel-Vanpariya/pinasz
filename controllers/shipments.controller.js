@@ -59,6 +59,9 @@ exports.getShipments = async ({ body: data }, res) => {
           [db.sequelize.col("final_destination.destination_name"), "final_destination"],
           [db.sequelize.col("invoice_party.party_name"), "invoicing_party"],
           [db.sequelize.col("consignee.consignee_name"), "consignee"],
+          [db.sequelize.col("shipping_line.name"), "shipping_line"],
+          [db.sequelize.col("incoterm.name"), "incoterm"],
+          [db.sequelize.col("mode_of_transport.name"), "mode_of_transport"],
         ],
       },
       raw: true,
@@ -98,6 +101,18 @@ exports.getShipments = async ({ body: data }, res) => {
         },
         {
           model: db.consignees,
+          attributes: [],
+        },
+        {
+          model: db.shipping_line,
+          attributes: [],
+        },
+        {
+          model: db.incoterm,
+          attributes: [],
+        },
+        {
+          model: db.mode_of_transport,
           attributes: [],
         },
       ],

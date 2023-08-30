@@ -150,9 +150,9 @@ const handleButtonClick = () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const res = await store.dispatch('savePaymentTerm', data);
   if (res.status == 'success') {
+    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
     resetForm();
     visible.value = false;
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Payment term successfully saved', life: 2500 });
     await getPaymentTerm();
     return;
   }

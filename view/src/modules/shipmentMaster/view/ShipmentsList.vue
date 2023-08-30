@@ -116,6 +116,18 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
+      <Column field="incoterm" header="Incoterm" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.incoterm }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="mode_of_transport" header="Mode of Transport" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.mode_of_transport }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
       <Column field="adv_rec_date" header="Adv Rec Date" sortable style="min-width: 20rem">
         <template #body="{ data }">{{ data.adv_rec_date ? dayjs(data.adv_rec_date).format('DD-MM-YYYY') : '' }}</template>
         <template #filter="{ filterModel, filterCallback }">
@@ -415,6 +427,8 @@ const filters = ref({
   destination_port: { value: null, matchMode: FilterMatchMode.CONTAINS },
   final_destination: { value: null, matchMode: FilterMatchMode.CONTAINS },
   number_of_container: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  incoterm: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  mode_of_transport: { value: null, matchMode: FilterMatchMode.CONTAINS },
   adv_rec_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
   adv_pay_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
   purchase_invoice: { value: null, matchMode: FilterMatchMode.CONTAINS },
