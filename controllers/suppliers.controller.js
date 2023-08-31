@@ -64,7 +64,14 @@ exports.deleteSupplier = async ({ body: data }, res) => {
 exports.getSuppliers = async ({ body: data }, res) => {
   try {
     const response = await db.product_supplier_map.findAll({
-      attributes: ["supplier.id", "supplier.supplier_name", [db.sequelize.col("product.id"), "product_id"], "product.item_name", "product.uom"],
+      attributes: [
+        "supplier.id",
+        "supplier.supplier_name",
+        [db.sequelize.col("product.id"), "product_id"],
+        "product.item_name",
+        "product.item_no",
+        "product.uom"
+      ],
       raw: true,
       include: [
         {
@@ -83,14 +90,23 @@ exports.getSuppliers = async ({ body: data }, res) => {
     if (response) {
       for (const object of response) {
         if (object.id == tempID) {
-          if (obj.items.filter((item) => item.id == object.product_id).length == 0) obj.items.push({ id: object.product_id, item_name: object.item_name, uom: object.uom });
+          if (obj.items.filter((item) => item.id == object.product_id).length == 0)
+            obj.items.push({
+              id: object.product_id,
+              item_name: `${object.item_name} (${object.item_no})`,
+              uom: object.uom,
+            });
         } else {
           if (Object.keys(obj).length > 0) sendData.push(obj);
           tempID = object.id;
           obj = {
             id: object.id,
             supplier_name: object.supplier_name,
-            items: [{ id: object.product_id, item_name: object.item_name, uom: object.uom }],
+            items: [{
+              id: object.product_id,
+              item_name: `${object.item_name} (${object.item_no})`,
+              uom: object.uom,
+            }],
           };
         }
       }

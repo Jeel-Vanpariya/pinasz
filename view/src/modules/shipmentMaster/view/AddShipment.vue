@@ -46,6 +46,7 @@
                     :options="suppliers"
                     optionLabel="supplier_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                     @change="handleSupplierChange"
@@ -66,6 +67,7 @@
                     :options="invoiceParty"
                     optionLabel="party_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -99,7 +101,16 @@
             <div class="col-md-4">
               <Field name="buyer_id" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
-                  <Dropdown id="buyer_id" :model-value="value" :options="buyers" optionLabel="buyer_name" optionValue="id" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <Dropdown
+                    id="buyer_id"
+                    :model-value="value"
+                    :options="buyers"
+                    optionLabel="buyer_name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
                   <label for="buyer_id">Buyer <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -115,6 +126,7 @@
                     :options="customers"
                     optionLabel="group_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -144,6 +156,7 @@
                     :options="paymentTerm"
                     optionLabel="payment_term"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -166,7 +179,7 @@
             <div class="col-md-4">
               <Field name="currency" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
-                  <Dropdown id="currency" :model-value="value" :options="store.state.currency" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <Dropdown id="currency" :model-value="value" :options="store.state.currency" filter :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
                   <label for="currency">Currency <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -183,6 +196,7 @@
                     :options="loadingPort"
                     optionLabel="port_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -201,6 +215,7 @@
                     :options="destinationPort"
                     optionLabel="port_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -219,6 +234,7 @@
                     :options="finalDestination"
                     optionLabel="destination_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -299,6 +315,7 @@
                       :options="products"
                       option-label="item_name"
                       option-value="id"
+                      filter
                       :model-value="value"
                       :class="{ 'p-invalid': errorMessage }"
                       @update:model-value="handleChange"
@@ -314,7 +331,15 @@
             </div>
           </Form>
           <div class="mt-4">
-            <DataTable v-model:editingRows="editingRows" :value="po_details" editMode="row" dataKey="id" tableClass="editable-cells-table" @row-edit-save="onRowEditSave">
+            <DataTable v-model:editingRows="editingRows" :value="po_details" editMode="row" dataKey="id" tableClass="editable-cells-table" :filters="poFilters" @row-edit-save="onRowEditSave">
+              <template #header>
+                <div class="d-flex justify-content-end">
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="poFilters['global'].value" placeholder="Keyword Search" />
+                  </span>
+                </div>
+              </template>
               <Column field="supplier_name" header="Supplier">
                 <template #body="{ data }">{{ data.supplier_name }}</template>
               </Column>
@@ -402,6 +427,7 @@
                   <span class="p-float-label">
                     <Dropdown
                       id="sale_invoice_val_currency"
+                      filter
                       :model-value="value"
                       :options="store.state.currency"
                       :class="{ 'p-invalid': errorMessage }"
@@ -451,6 +477,7 @@
                   <span class="p-float-label">
                     <Dropdown
                       id="s_final_inv_value_currency"
+                      filter
                       :model-value="value"
                       :options="store.state.currency"
                       :class="{ 'p-invalid': errorMessage }"
@@ -579,7 +606,7 @@
             <div class="col-md-4">
               <Field name="inspection" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
-                  <Dropdown id="inspection" :options="store.state.inspection" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                  <Dropdown id="inspection" :options="store.state.inspection" filter :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
                   <label for="inspection">Inspection <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
@@ -616,6 +643,7 @@
                     :options="consignee"
                     optionLabel="consignee_name"
                     optionValue="id"
+                    filter
                     :class="{ 'p-invalid': errorMessage }"
                     @update:model-value="handleChange"
                   />
@@ -749,6 +777,7 @@
                       :options="containerTypes"
                       option-label="type_name"
                       option-value="id"
+                      filter
                       :model-value="value"
                       :class="{ 'p-invalid': errorMessage }"
                       @update:model-value="handleChange"
@@ -766,6 +795,7 @@
                       :options="products"
                       option-label="item_name"
                       option-value="id"
+                      filter
                       :model-value="value"
                       :class="{ 'p-invalid': errorMessage }"
                       @update:model-value="handleChange"
@@ -790,7 +820,15 @@
             </div>
           </Form>
           <div class="mt-4">
-            <DataTable :value="container_details" dataKey="id">
+            <DataTable :value="container_details" dataKey="id" :filters="containerFilters">
+              <template #header>
+                <div class="d-flex justify-content-end">
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-search" />
+                    <InputText v-model="containerFilters['global'].value" placeholder="Keyword Search" />
+                  </span>
+                </div>
+              </template>
               <Column field="container_no" header="Container No.">
                 <template #body="{ data }">{{ data.container_no }}</template>
               </Column>
@@ -848,6 +886,7 @@ import Toast from 'primevue/toast';
 import dayjs from 'dayjs';
 import Divider from 'primevue/divider';
 import Chips from 'primevue/chips';
+import { FilterMatchMode } from 'primevue/api';
 
 const route = useRoute();
 const toast = useToast();
@@ -933,7 +972,12 @@ const containerSchema = yup.object({
 const poSchema = yup.object({
   item_id: yup.number().required('Please select product')
 });
-
+const poFilters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+});
+const containerFilters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+});
 onMounted(async () => {
   await refreshMasters();
   form.value.resetForm();
