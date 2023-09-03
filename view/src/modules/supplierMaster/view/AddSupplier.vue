@@ -8,16 +8,21 @@
     </template>
     <Form ref="form" :validation-schema="schema" @submit="onSubmit">
       <div class="row mt-4 supplier__add">
-        <div class="col-md">
-          <Field name="s_no" v-slot="{ value, errorMessage, handleChange }">
-            <span class="p-float-label">
-              <InputText id="s_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-              <label for="s_no">S No.</label>
-            </span>
-            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-          </Field>
+        <div class="col-md-4 row m-0 p-0">
+          <div class="col-md-10">
+            <Field name="s_no" v-slot="{ value, errorMessage, handleChange }">
+              <span class="p-float-label">
+                <InputText id="s_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                <label for="s_no">S No.</label>
+              </span>
+              <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+            </Field>
+          </div>
+          <div class="col-md">
+            <Button v-tooltip.top="'Generate'" icon="pi pi-sync" severity="success" rounded outlined @click="generateSupplierCounter" />
+          </div>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="supplier_name" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="supplier_name" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -26,7 +31,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="phone_no" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="phone_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -37,7 +42,7 @@
         </div>
       </div>
       <div class="row mt-4 supplier__add">
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="address" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="address" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -46,7 +51,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="pincode" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="pincode" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -55,7 +60,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="country_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown
@@ -75,7 +80,7 @@
         </div>
       </div>
       <div class="row mt-4 supplier__add">
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="bank_account_no" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="bank_account_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -84,7 +89,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="bank_name" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="bank_name" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -93,7 +98,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="bank_address" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="bank_address" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -104,7 +109,7 @@
         </div>
       </div>
       <div class="row mt-4 supplier__add">
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="iban_no" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="iban_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -113,7 +118,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="swift_code" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="swift_code" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -122,7 +127,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="payment_term_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown
@@ -141,7 +146,7 @@
         </div>
       </div>
       <div class="row mt-4 supplier__add">
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="email" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="email" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -150,7 +155,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="contact_person" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="contact_person" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -159,7 +164,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+        <div class="col-md-4">
           <Field name="contact_no" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="contact_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -254,6 +259,17 @@ const getSupplierForEdit = async () => {
     return;
   }
   toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to fetch supplier details', life: 2500 });
+};
+
+const generateSupplierCounter = async () => {
+  store.state.spinner = false;
+  const res = await store.dispatch('generateSupplierCounter');
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    form.value.setFieldValue('s_no', `${res.data.start_string}${res.data.counter}`, false);
+    return;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to generate s no', life: 2500 });
 };
 
 const onSubmit = async (data: any, { resetForm }: any) => {
