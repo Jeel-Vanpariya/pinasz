@@ -9,6 +9,14 @@ export default {
       return { status: 'error', data: error };
     }
   },
+  async checkSupplierCounter(_: any, data: any) {
+    try {
+      const response = await axios.post('check-supplier-counter',data);
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   async saveSupplier(_: any, data: any) {
     try {
       const response = await axios.post('save-supplier', data);

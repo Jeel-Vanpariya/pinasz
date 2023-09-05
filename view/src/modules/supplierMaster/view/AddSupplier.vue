@@ -266,21 +266,37 @@ const generateSupplierCounter = async () => {
   const res = await store.dispatch('generateSupplierCounter');
   store.state.spinner = false;
   if (res.status == 'success') {
-    form.value.setFieldValue('s_no', `${res.data.start_string}${res.data.counter}`, false);
+    form.value.setFieldValue('s_no', `${res.data}`, false);
     return;
   }
-  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to generate s no', life: 2500 });
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to generate S no.', life: 2500 });
+};
+
+const checkSupplierCounter = async () => {
+  store.state.spinner = false;
+  const res = await store.dispatch('checkSupplierCounter', { s_no: form.value.getValues().s_no, id: route.params.id });
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    if (!res.data) return true;
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please regenerate S no.', life: 2500 });
+    return false;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to check S no.', life: 2500 });
+  return false;
 };
 
 const onSubmit = async (data: any, { resetForm }: any) => {
-  const res = await store.dispatch('saveSupplier', { id: route.params.id ? route.params.id : '0', ...data });
-  if (res.status == 'success') {
-    toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
-    resetForm();
-    onCancel();
-    return;
+  const counterCheck = await checkSupplierCounter();
+  if (counterCheck) {
+    const res = await store.dispatch('saveSupplier', { id: route.params.id ? route.params.id : '0', ...data });
+    if (res.status == 'success') {
+      toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
+      resetForm();
+      onCancel();
+      return;
+    }
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to save operation', life: 2500 });
   }
-  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to save operation', life: 2500 });
 };
 
 const onCancel = () => {
