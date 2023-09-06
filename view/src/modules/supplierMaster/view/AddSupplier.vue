@@ -273,8 +273,18 @@ const generateSupplierCounter = async () => {
 };
 
 const checkSupplierCounter = async () => {
+  const str = form.value.getValues().s_no.toUpperCase();
+  const charCount = (str.match(new RegExp('[a-zA-Z]', 'g')) || []).length;
+  const numCount = (str.match(new RegExp('[0-9]', 'g')) || []).length;
+  const specificCharCount = (str.match(new RegExp('S', 'g')) || []).length;
+
+  if (specificCharCount == 0 || specificCharCount > 1 || charCount > 1 || charCount == 0 || numCount == 0 || numCount > 6 || numCount < 6) {
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid S no.', life: 2500 });
+    return false;
+  }
+
   store.state.spinner = false;
-  const res = await store.dispatch('checkSupplierCounter', { s_no: form.value.getValues().s_no, id: route.params.id });
+  const res = await store.dispatch('checkSupplierCounter', { s_no: str, id: route.params.id });
   store.state.spinner = false;
   if (res.status == 'success') {
     if (!res.data) return true;
@@ -288,6 +298,7 @@ const checkSupplierCounter = async () => {
 const onSubmit = async (data: any, { resetForm }: any) => {
   const counterCheck = await checkSupplierCounter();
   if (counterCheck) {
+    data.s_no = data.s_no.toUpperCase();
     const res = await store.dispatch('saveSupplier', { id: route.params.id ? route.params.id : '0', ...data });
     if (res.status == 'success') {
       toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
