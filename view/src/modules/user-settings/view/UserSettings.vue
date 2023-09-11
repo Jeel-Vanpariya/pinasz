@@ -24,7 +24,7 @@ const menuItems = ref([
     icon: 'pi pi-download',
     command: () => {
       sessionStorage.clear();
-      router.replace({ name: 'UserLogin' });
+      router.push({ name: 'UserLogin' });
     }
   }
 ]);

@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.countries, { foreignKey: "country_id" });
       this.belongsTo(models.customers, { foreignKey: "buyer_id", as: "buyer" });
       this.belongsTo(models.customers, { foreignKey: "customer_id" });
       this.belongsTo(models.suppliers, { foreignKey: "supplier_id" });
@@ -31,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   shipments.init(
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+      country_id: { type: DataTypes.INTEGER, allowNull: false },
       po_no: DataTypes.STRING(512),
       supplier_id: { type: DataTypes.INTEGER, allowNull: false },
       buyer_id: { type: DataTypes.INTEGER, allowNull: false },

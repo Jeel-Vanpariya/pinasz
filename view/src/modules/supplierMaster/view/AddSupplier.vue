@@ -311,7 +311,7 @@ const onSubmit = async (data: any, { resetForm }: any) => {
 };
 
 const onCancel = () => {
-  router.replace({ name: 'SuppliersList' });
+  router.push({ name: 'SuppliersList' });
 };
 </script>
 <style lang="scss">

@@ -1,6 +1,22 @@
 import axios from 'axios';
 
 export default {
+  async generateShipmentCounter(_: any, data: any) {
+    try {
+      const response = await axios.post('generate-shipment-counter', data);
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
+  async checkShipmentCounter(_: any, data: any) {
+    try {
+      const response = await axios.post('check-shipment-counter', data);
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   async getSuppliers() {
     try {
       const response = await axios.post('get-suppliers');

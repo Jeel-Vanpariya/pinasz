@@ -227,18 +227,25 @@ const onUpload = (e: any) => {
       if (Object.keys(sample_json).filter((item: string) => res.meta.fields.indexOf(item) == -1).length == 0) {
         let error = false;
         for (const object of res.data) {
-          if (moment(object.date).isValid()) {
-            object.date = dayjs(object.date).format('DD-MM-YYYY');
-          } else {
-            toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid date formate found in CSV', life: 3000 });
-            return;
-          }
-
           for (const key in object) {
             if (object[key].replace(' ', '').length == 0) {
+              error = true;
               toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
               return;
             }
+          }
+          const res = await checkProductCounter(object.item_no);
+          if (!res) {
+            error = true;
+            return;
+          }
+
+          if (moment(object.date).isValid()) {
+            object.date = dayjs(object.date).format('DD-MM-YYYY');
+          } else {
+            error = true;
+            toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid date formate found in CSV', life: 3000 });
+            return;
           }
         }
         if (!error) {
@@ -256,6 +263,28 @@ const onUpload = (e: any) => {
       toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid CSV', life: 3000 });
     }
   });
+};
+
+const checkProductCounter = async (str: string) => {
+  const charCount = (str.match(new RegExp('[a-zA-Z]', 'g')) || []).length;
+  const numCount = (str.match(new RegExp('[0-9]', 'g')) || []).length;
+  const specificCharCount = (str.match(new RegExp('A', 'g')) || []).length;
+
+  if (specificCharCount == 0 || specificCharCount > 1 || charCount > 1 || charCount == 0 || numCount == 0 || numCount > 6 || numCount < 6) {
+    toast.add({ severity: 'error', summary: 'Error Message', detail: `${str} Invalid Item no.`, life: 2500 });
+    return false;
+  }
+
+  store.state.spinner = false;
+  const res = await store.dispatch('checkProductCounter', { item_no: str });
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    if (!res.data) return true;
+    toast.add({ severity: 'error', summary: 'Error Message', detail: `${str} Item no. already exists`, life: 2500 });
+    return false;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to check Item no.', life: 2500 });
+  return false;
 };
 
 const confirmDeleteProduct = (id: number) => {

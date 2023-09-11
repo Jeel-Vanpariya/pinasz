@@ -1,6 +1,22 @@
 import axios from 'axios';
 
 export default {
+  async generateProductCounter() {
+    try {
+      const response = await axios.post('generate-product-counter');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
+  async checkProductCounter(_: any, data: any) {
+    try {
+      const response = await axios.post('check-product-counter',data);
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   async getProductCategories() {
     try {
       const response = await axios.post('get-product-categories');

@@ -18,13 +18,37 @@
           </template>
           <div class="row mt-4 add__shipment">
             <div class="col-md-4">
-              <Field name="po_no" v-slot="{ value, errorMessage, handleChange }">
+              <Field name="country_id" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
-                  <InputText id="po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
-                  <label for="po_no">PO Number <i class="mdi mdi-multiplication text-danger" /></label>
+                  <Dropdown
+                    id="country_id"
+                    :model-value="value"
+                    :options="countries"
+                    optionLabel="name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
+                  <label for="country_id">Country <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
+            </div>
+
+            <div class="col-md-4 row m-0 p-0">
+              <div class="col-md-10">
+                <Field name="po_no" v-slot="{ value, errorMessage, handleChange }">
+                  <span class="p-float-label">
+                    <InputText id="po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+                    <label for="po_no">PO Number <i class="mdi mdi-multiplication text-danger" /></label>
+                  </span>
+                  <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+                </Field>
+              </div>
+              <div class="col-md">
+                <Button v-tooltip.top="'Generate'" icon="pi pi-sync" severity="success" rounded outlined @click="generateShipmentCounter" />
+              </div>
             </div>
 
             <div class="col-md-4">
@@ -36,7 +60,8 @@
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
             </div>
-
+          </div>
+          <div class="row mt-4 add__shipment">
             <div class="col-md-4">
               <Field name="supplier_id" v-slot="{ value, errorMessage, handleChange }">
                 <span class="p-float-label">
@@ -52,26 +77,6 @@
                     @change="handleSupplierChange"
                   />
                   <label for="supplier_id">Supplier <i class="mdi mdi-multiplication text-danger" /></label>
-                </span>
-                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
-              </Field>
-            </div>
-          </div>
-          <div class="row mt-4 add__shipment">
-            <div class="col-md-4">
-              <Field name="invoicing_party_id" v-slot="{ value, errorMessage, handleChange }">
-                <span class="p-float-label">
-                  <Dropdown
-                    id="invoicing_party_id"
-                    :model-value="value"
-                    :options="invoiceParty"
-                    optionLabel="party_name"
-                    optionValue="id"
-                    filter
-                    :class="{ 'p-invalid': errorMessage }"
-                    @update:model-value="handleChange"
-                  />
-                  <label for="invoicing_party_id">Invoicing Party <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -299,6 +304,25 @@
                     @update:model-value="handleChange"
                   />
                   <label for="mode_of_transport_id">Mode of Transport</label>
+                </span>
+                <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+              </Field>
+            </div>
+
+            <div class="col-md-4">
+              <Field name="invoicing_party_id" v-slot="{ value, errorMessage, handleChange }">
+                <span class="p-float-label">
+                  <Dropdown
+                    id="invoicing_party_id"
+                    :model-value="value"
+                    :options="invoiceParty"
+                    optionLabel="party_name"
+                    optionValue="id"
+                    filter
+                    :class="{ 'p-invalid': errorMessage }"
+                    @update:model-value="handleChange"
+                  />
+                  <label for="invoicing_party_id">Invoicing Party <i class="mdi mdi-multiplication text-danger" /></label>
                 </span>
                 <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
               </Field>
@@ -909,7 +933,9 @@ const products = ref([]);
 const shipping_line = ref([]);
 const incoterm = ref([]);
 const mode_of_transport = ref([]);
+const countries = ref([]);
 const schema = yup.object({
+  country_id: yup.number().required('Please select country'),
   po_no: yup.string().required('Please enter po no.'),
   supp_po_date: yup.date().required('Please select a supplier po date'),
   supplier_id: yup.number().required('Please select a supplier'),
@@ -986,6 +1012,7 @@ onMounted(async () => {
 
 const refreshMasters = async () => {
   store.state.spinner = true;
+  await getCountries();
   await getSuppliers();
   await getBuyers();
   await getCustomers();
@@ -1000,6 +1027,13 @@ const refreshMasters = async () => {
   await getIncoterm();
   await getModeOfTransport();
   store.state.spinner = false;
+};
+
+const getCountries = async () => {
+  const res = await store.dispatch('getCountries');
+  if (res.status == 'success') {
+    countries.value = res.data;
+  }
 };
 
 const getSuppliers = async () => {
@@ -1236,8 +1270,65 @@ const handlePODetailsDelete = (index: number) => {
   po_details.value.splice(index, 1);
 };
 
+const generateShipmentCounter = async () => {
+  const country: any = countries.value.filter((item: any) => item.id == form.value.getValues().country_id);
+
+  if (country.length == 0) {
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please select country', life: 2500 });
+    return;
+  }
+
+  store.state.spinner = false;
+  const res = await store.dispatch('generateShipmentCounter', { str: country[0].code });
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    form.value.setFieldValue('po_no', `${res.data}`, false);
+    return;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to generate PO no.', life: 2500 });
+};
+
+const checkShipmentCounter = async () => {
+  const country: string = countries.value.filter((item: any) => item.id == form.value.getValues().country_id)[0].code;
+  const str = form.value.getValues().po_no.toUpperCase();
+  const charCount = (str.match(new RegExp('[a-zA-Z]', 'g')) || []).length;
+  const numCount = (str.match(new RegExp('[0-9]', 'g')) || []).length;
+  const specificCharCount = str.match(new RegExp(country, 'g')) || [];
+
+  if (
+    specificCharCount.length == 0 ||
+    specificCharCount.length > 1 ||
+    specificCharCount[0].length != country.length ||
+    charCount != country.length ||
+    charCount == 0 ||
+    numCount == 0 ||
+    numCount > 6 ||
+    numCount < 6
+  ) {
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid PO no.', life: 2500 });
+    return false;
+  }
+
+  store.state.spinner = false;
+  const res = await store.dispatch('checkShipmentCounter', { po_no: str, id: route.params.id });
+  store.state.spinner = false;
+  if (res.status == 'success') {
+    if (!res.data) return true;
+    toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please regenerate PO no.', life: 2500 });
+    return false;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to check PO no.', life: 2500 });
+  return false;
+};
+
 const onSubmit = async (data: any, { resetForm }: any) => {
   let error = false;
+  const res = await checkShipmentCounter();
+  if (!res) {
+    active.value = 0;
+    error = true;
+    return;
+  }
   if (po_details.value.length == 0) {
     toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please add items in po details', life: 2500 });
     active.value = 0;
@@ -1281,7 +1372,7 @@ const onSubmit = async (data: any, { resetForm }: any) => {
 };
 
 const onCancel = () => {
-  router.replace({ name: 'ShipmentList' });
+  router.push({ name: 'ShipmentList' });
 };
 </script>
 <style lang="scss">

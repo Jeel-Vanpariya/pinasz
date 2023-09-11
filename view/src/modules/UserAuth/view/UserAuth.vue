@@ -53,7 +53,7 @@ const onSubmit = async (data: any) => {
     if (res.message) toast.add({ severity: 'error', summary: 'Error Message', detail: res.message, life: 2500 });
     else {
       sessionStorage.setItem('user_id', res.data.id);
-      router.replace({ name: 'dashboard' });
+      router.push({ name: 'dashboard' });
     }
     return;
   }
