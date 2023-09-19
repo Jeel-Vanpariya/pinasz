@@ -241,7 +241,6 @@ import router from '../../../router/index';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useRoute } from 'vue-router';
-import dayjs from 'dayjs';
 import TreeSelect from 'primevue/treeselect';
 
 const route = useRoute();
@@ -351,7 +350,7 @@ const getProductForEdit = async () => {
   if (res.status == 'success') {
     res.data.container_type = res.data.container_type_id;
     res.data.loading_port = res.data.loading_port_id;
-    res.data.date = dayjs(res.data.date).format('MM/DD/YYYY');
+    res.data.date = new Date(res.data.date);
     if (!res.data.additions_details) delete res.data.additions_details;
     form.value.setValues(res.data);
     return;

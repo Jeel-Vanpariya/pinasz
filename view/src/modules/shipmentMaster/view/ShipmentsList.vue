@@ -302,6 +302,30 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
+      <Column field="draft_cnca" header="Draft CNCA" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.draft_cnca ? dayjs(data.draft_cnca).format('DD-MM-YYYY') : '' }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="original_cnca" header="Original CNCA" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.original_cnca ? dayjs(data.original_cnca).format('DD-MM-YYYY') : '' }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="cnca_agent" header="CNCA Agent" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.cnca_agent }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="dup" header="DUP" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.dup ? dayjs(data.dup).format('DD-MM-YYYY') : '' }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
       <Column field="remarks" header="Remarks" sortable style="min-width: 20rem">
         <template #body="{ data }">{{ data.remarks }}</template>
         <template #filter="{ filterModel, filterCallback }">
@@ -458,6 +482,10 @@ const filters = ref({
   stuf_photo: { value: null, matchMode: FilterMatchMode.CONTAINS },
   est_arriv_date: { value: null, matchMode: FilterMatchMode.CONTAINS },
   bl_no: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  draft_cnca: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  original_cnca: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  cnca_agent: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  dup: { value: null, matchMode: FilterMatchMode.CONTAINS },
   remarks: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 const poFilters = ref({

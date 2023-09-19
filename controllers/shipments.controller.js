@@ -62,6 +62,8 @@ exports.getShipments = async ({ body: data }, res) => {
           [db.sequelize.col("shipping_line.name"), "shipping_line"],
           [db.sequelize.col("incoterm.name"), "incoterm"],
           [db.sequelize.col("mode_of_transport.name"), "mode_of_transport"],
+          [db.sequelize.col("currency.name"), "currency"],
+          [db.sequelize.col("agent.supplier_name"), "cnca_agent"],
         ],
       },
       raw: true,
@@ -113,6 +115,16 @@ exports.getShipments = async ({ body: data }, res) => {
         },
         {
           model: db.mode_of_transport,
+          attributes: [],
+        },
+        {
+          model: db.currencies,
+          as:'currency',
+          attributes: [],
+        },
+        {
+          model: db.suppliers,
+          as:'agent',
           attributes: [],
         },
       ],
