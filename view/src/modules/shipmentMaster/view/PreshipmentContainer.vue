@@ -22,12 +22,28 @@
       <div class="col-md">
         <Button label="Add" icon="pi pi-plus" type="submit" />
       </div>
+      <div class="col-md d-flex justify-content-end">
+        <FileUpload class="mx-3" mode="basic" accept="text/csv" chooseLabel="Import CSV" :auto="true" customUpload @uploader="onUpload" />
+        <download-csv :data="[sample_json]" name="sample.csv">
+          <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
+        </download-csv>
+      </div>
     </div>
   </Form>
   <div class="mt-4">
-    <DataTable v-model:editingRows="editingRows" :value="store.state.poDetails" editMode="row" dataKey="id" tableClass="editable-cells-table" :filters="filters" @row-edit-save="onRowEditSave">
+    <DataTable
+      v-model:editingRows="editingRows"
+      :value="store.state.poDetails"
+      ref="dt"
+      editMode="row"
+      dataKey="id"
+      tableClass="editable-cells-table"
+      :filters="filters"
+      @row-edit-save="onRowEditSave"
+    >
       <template #header>
         <div class="d-flex justify-content-end">
+          <Button class="mx-3" icon="pi pi-external-link" label="Export" severity="secondary" @click="exportCSV" />
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
@@ -58,8 +74,8 @@
           <InputNumber v-model="data[field]" inputId="minmaxfraction" :minFractionDigits="2" :maxFractionDigits="2" />
         </template>
       </Column>
-      <Column field="total" header="Total">
-        <template #body="{ data }">{{ data.qty * data.price }}</template>
+      <Column field="total" header="Total" :exportable="false">
+        <template #body="{ data }">{{ (data.qty * data.price).toFixed(2) }}</template>
       </Column>
       <Column :rowEditor="true" style="min-width: 8rem" bodyStyle="text-align:center" />
       <Column :exportable="false" alignFrozen="right" :frozen="true">
@@ -82,9 +98,13 @@ import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import * as yup from 'yup';
 import { useToast } from 'primevue/usetoast';
+import FileUpload from 'primevue/fileupload';
+import Papa from 'papaparse';
+import InputNumber from 'primevue/inputnumber';
 
 const toast = useToast();
 const emit = defineEmits(['getFormValues']);
+const dt = ref();
 const editingRows = ref([]);
 const schema = yup.object({
   item_id: yup.number().required('Please select product')
@@ -92,10 +112,15 @@ const schema = yup.object({
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
+const sample_json = {
+  item_no: '',
+  qty: '',
+  price: ''
+};
 
 const handleRowAdd = (data: any, { resetForm }: any) => {
- emit('getFormValues');
-  if (!store.state.formData.currency) {
+  emit('getFormValues');
+  if (!store.state.formData.currency_id) {
     toast.add({ severity: 'error', summary: 'Error Message', detail: 'Please select currency', life: 2500 });
     return;
   }
@@ -104,7 +129,7 @@ const handleRowAdd = (data: any, { resetForm }: any) => {
     return;
   }
   const supplier: any = store.state.suppliers.filter((item) => item.id == store.state.formData.supplier_id)[0];
-  const products: any = store.state.products.filter((item) => item.id == store.state.formData.item_id)[0];
+  const products: any = store.state.products.filter((item) => item.id == data.item_id)[0];
 
   store.state.poDetails.push({
     id: `${Math.floor(1000 + Math.random() * 9000)}`,
@@ -112,12 +137,60 @@ const handleRowAdd = (data: any, { resetForm }: any) => {
     supplier_name: supplier.supplier_name,
     item_name: products.item_name,
     item_id: products.id,
-    currency: store.state.formData.currency,
+    currency: store.state.currencies.filter((item) => item.id == store.state.formData.currency_id)[0].name,
     uom: products.uom,
     qty: 0,
-    price: 0
+    price: 0,
   });
   resetForm();
+};
+
+const onUpload = (e: any) => {
+  Papa.parse(e.files[0], {
+    header: true,
+    skipEmptyLines: true,
+    complete: async (res: any) => {
+      if (Object.keys(sample_json).filter((item: string) => res.meta.fields.indexOf(item) == -1).length == 0) {
+        for (const object of res.data) {
+          for (const key in object) {
+            if (object[key].replace(' ', '').length == 0) {
+              toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
+              return;
+            }
+          }
+        }
+        emit('getFormValues');
+        const supplier: any = store.state.suppliers.filter((item) => item.id == store.state.formData.supplier_id)[0];
+        for (const object of res.data) {
+          const product: any = store.state.products.filter((item) => item.item_name.includes(object.item_no))[0];
+          const poDetails = store.state.poDetails.filter((item) => item.item_name.includes(object.item_no))[0];
+
+          if (poDetails) {
+            poDetails.qty += Math.trunc(object.qty);
+            poDetails.price = Number(object.price).toFixed(2);
+          } else if (product) {
+            store.state.poDetails.push({
+              id: `${Math.floor(1000 + Math.random() * 9000)}`,
+              supplier_id: supplier.id,
+              supplier_name: supplier.supplier_name,
+              item_name: product.item_name,
+              item_id: product.id,
+              currency: store.state.currencies.filter((item) => item.id == store.state.formData.currency_id)[0].name,
+              uom: product.uom,
+              qty: Math.trunc(object.qty),
+              price: Number(object.price).toFixed(2)
+            });
+          }
+        }
+        return;
+      }
+      toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid CSV', life: 3000 });
+    }
+  });
+};
+
+const exportCSV = () => {
+    dt.value.exportCSV();
 };
 
 const onRowEditSave = ({ newData, index }: any) => {
