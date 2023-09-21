@@ -37,7 +37,9 @@
       ref="dt"
       editMode="row"
       dataKey="id"
+      scrollHeight="300px"
       tableClass="editable-cells-table"
+      scrollable
       :filters="filters"
       @row-edit-save="onRowEditSave"
     >
@@ -153,7 +155,7 @@ const onUpload = (e: any) => {
       if (Object.keys(sample_json).filter((item: string) => res.meta.fields.indexOf(item) == -1).length == 0) {
         for (const object of res.data) {
           for (const key in object) {
-            if (object[key].replace(' ', '').length == 0) {
+            if (object[key].replace(/\s/g,'').length == 0) {
               toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
               return;
             }

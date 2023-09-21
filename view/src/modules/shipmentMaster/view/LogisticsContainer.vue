@@ -58,12 +58,19 @@
       <div class="col-md">
         <Button label="Add" icon="pi pi-plus" type="submit" />
       </div>
+      <div class="col-md-12 d-flex justify-content-end">
+        <FileUpload class="mx-3" mode="basic" accept="text/csv" chooseLabel="Import CSV" :auto="true" customUpload @uploader="onUpload" />
+        <download-csv :data="[sample_json]" name="sample.csv">
+          <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
+        </download-csv>
+      </div>
     </div>
   </Form>
   <div class="mt-4">
-    <DataTable :value="store.state.containerDetails" dataKey="id" :filters="filters">
+    <DataTable :value="store.state.containerDetails" scrollHeight="300px" ref="dt" dataKey="id" :filters="filters" scrollable>
       <template #header>
         <div class="d-flex justify-content-end">
+          <Button class="mx-3" icon="pi pi-external-link" label="Export" severity="secondary" @click="exportCSV" />
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
@@ -106,8 +113,11 @@ import InputText from 'primevue/inputtext';
 import * as yup from 'yup';
 import { useToast } from 'primevue/usetoast';
 import InputNumber from 'primevue/inputnumber';
+import FileUpload from 'primevue/fileupload';
+import Papa from 'papaparse';
 
 const toast = useToast();
+const dt = ref();
 const schema = yup.object({
   container_no: yup.string().required('Please enter container'),
   container_type_id: yup.number().required('Please select container type'),
@@ -117,7 +127,12 @@ const schema = yup.object({
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
-
+const sample_json = {
+  container_no: '',
+  container_type: '',
+  item_no: '',
+  qty: ''
+};
 
 const handleRowAdd = (data: any, { resetForm }: any) => {
   const po_product = store.state.poDetails.filter((item: any) => item.item_id == data.item_id)[0],
@@ -137,6 +152,52 @@ const handleRowAdd = (data: any, { resetForm }: any) => {
     return;
   }
   toast.add({ severity: 'error', summary: 'Error Message', detail: `Max available qty is ${po_product.qty - qty}`, life: 2500 });
+};
+
+const onUpload = (e: any) => {
+  Papa.parse(e.files[0], {
+    header: true,
+    skipEmptyLines: true,
+    complete: async (res: any) => {
+      if (Object.keys(sample_json).filter((item: string) => res.meta.fields.indexOf(item) == -1).length == 0) {
+        for (const object of res.data) {
+          for (const key in object) {
+            if (object[key].replace(/\s/g,'').length == 0) {
+              toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
+              return;
+            }
+          }
+        }
+        for (const object of res.data) {
+          const containerType = store.state.containerTypes.filter((item) => item.type_name.replace(/\s/g,'').toLowerCase() == object.container_type.replace(/\s/g,'').toLowerCase())[0];
+          const poDetails = store.state.poDetails.filter((item) => item.item_name.includes(object.item_no))[0];
+          const containerDetail = store.state.containerDetails.filter((item) => item.container_no.includes(object.container_no) && item.item_name.includes(object.item_no))[0];
+          
+          if (containerDetail) {
+            containerDetail.qty += Math.trunc(object.qty);
+            if (poDetails.qty < containerDetail.qty) containerDetail.qty = poDetails.qty;
+          } else if (poDetails && containerType) {
+            store.state.containerDetails.push({
+              id: `${Math.floor(1000 + Math.random() * 9000)}`,
+              type_name: containerType.type_name,
+              container_type_id: containerType.id,
+              item_name: poDetails.item_name,
+              item_id: poDetails.item_id,
+              container_no: object.container_no,
+              qty: Math.trunc(object.qty) <= poDetails.qty ? Math.trunc(object.qty) : poDetails.qty,
+              uom: poDetails.uom
+            });
+          }
+        }
+        return;
+      }
+      toast.add({ severity: 'error', summary: 'Error Message', detail: 'Invalid CSV', life: 3000 });
+    }
+  });
+};
+
+const exportCSV = () => {
+  dt.value.exportCSV();
 };
 
 const handleRowDelete = (index: number) => {
