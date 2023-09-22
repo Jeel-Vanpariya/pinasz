@@ -128,6 +128,24 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
+      <Column field="supplier_ref_no" header="Supplier Ref no." sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ JSON.parse(data.supplier_ref_no).join(',') }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="pcs" header="PCS" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.pcs }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="ctn" header="CTN" sortable style="min-width: 20rem">
+        <template #body="{ data }">{{ data.ctn }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
@@ -184,7 +202,10 @@ const filters = ref({
   last_fob: { value: null, matchMode: FilterMatchMode.CONTAINS },
   currency: { value: null, matchMode: FilterMatchMode.CONTAINS },
   date: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  supplier: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  supplier: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  supplier_ref_no: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  pcs: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  ctn: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 const sample_json = {
   item_no: '',
@@ -203,7 +224,10 @@ const sample_json = {
   last_fob: '',
   currency: '',
   date: '',
-  supplier: ''
+  supplier: '',
+  supplier_ref_no: '',
+  pcs: '',
+  ctn: ''
 };
 
 onMounted(async () => {
@@ -228,7 +252,7 @@ const onUpload = (e: any) => {
         let error = false;
         for (const object of res.data) {
           for (const key in object) {
-            if (object[key].replace(' ', '').length == 0) {
+            if (object[key].replace(/\s/g,'').length == 0) {
               error = true;
               toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
               return;

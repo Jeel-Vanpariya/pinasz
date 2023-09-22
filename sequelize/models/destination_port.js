@@ -11,12 +11,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasOne(models.shipments, { foreignKey: "destination_port_id" });
+      this.belongsTo(models.countries, { foreignKey: "country_id" });
     }
   }
   destination_port.init(
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       port_name: { type: DataTypes.STRING(255), allowNull: false },
+      country_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

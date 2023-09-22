@@ -2,7 +2,7 @@ const db = require("../sequelize/models/index.js");
 
 exports.saveDestinationPort = async ({ body: data }, res) => {
   try {
-    await db.destination_port.bulkCreate([data], { updateOnDuplicate: ["port_name"] });
+    await db.destination_port.bulkCreate([data], { updateOnDuplicate: ["port_name", "country_id"] });
     res.send({ status: "success", message: "Destination port saved successfully" });
   } catch (error) {
     console.log(error);
@@ -12,9 +12,19 @@ exports.saveDestinationPort = async ({ body: data }, res) => {
 
 exports.getDestinationPort = async (req, res) => {
   try {
-    const response = await db.destination_port.findAll();
+    const response = await db.destination_port.findAll({
+      attributes: ["id", "port_name", "country_id", [db.sequelize.col("country.name"), "country"]],
+      raw: true,
+      include: [
+        {
+          model: db.countries,
+          attributes: [],
+        },
+      ],
+    });
     res.send({ status: "success", data: response });
   } catch (error) {
+    console.log(error);
     res.status(200).send({ status: "error", message: error });
   }
 };

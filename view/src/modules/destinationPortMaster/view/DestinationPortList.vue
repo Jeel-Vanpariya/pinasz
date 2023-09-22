@@ -18,6 +18,12 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
+      <Column field="country" header="Country" sortable>
+        <template #body="{ data }">{{ data.country }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
       <Column :exportable="false">
         <template #body="slotProps">
           <div class="text-end">
@@ -37,6 +43,13 @@
         <span class="p-float-label">
           <InputText id="port_name" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
           <label for="port_name">Port Name</label>
+        </span>
+        <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+      </Field>
+      <Field name="country_id" v-slot="{ value, errorMessage, handleChange }">
+        <span class="p-float-label mt-4">
+          <Dropdown id="country_id" filter :model-value="value" :options="countries" option-label="name" option-value="id" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+          <label for="country_id">Country</label>
         </span>
         <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
       </Field>
@@ -64,32 +77,47 @@ import { Field, Form } from 'vee-validate';
 import * as yup from 'yup';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
+import Dropdown from 'primevue/dropdown';
 
 const confirm = useConfirm();
 const toast = useToast();
-const data = ref([]);
 const visible = ref(false);
+const data = ref([]);
+const countries = ref([]);
 const schema = yup.object({
   id: yup.mixed(),
-  port_name: yup.string().required('Please enter party name')
+  port_name: yup.string().required('Please enter party name'),
+  country_id: yup.string().required('Please select country')
 });
 const initialValue = ref({
   id: '0',
-  port_name: ''
+  port_name: '',
+  country_id: null
 });
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  port_name: { value: null, matchMode: FilterMatchMode.CONTAINS }
+  port_name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  country: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
 onMounted(async () => {
-  getDestinationPort();
+  store.state.spinner = true;
+  await getCountries();
+  await getDestinationPort();
+  store.state.spinner = false;
 });
 
+const getCountries = async () => {
+  const res = await store.dispatch('getCountries');
+  if (res.status == 'success') {
+    countries.value = res.data;
+    return;
+  }
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Something went wrong unable to fetch countries', life: 2500 });
+};
+
 const getDestinationPort = async () => {
-  store.state.spinner = true;
   const res = await store.dispatch('getDestinationPort');
-  store.state.spinner = false;
   if (res.status == 'success') {
     data.value = res.data;
   }
@@ -98,7 +126,8 @@ const getDestinationPort = async () => {
 const handleButtonClick = () => {
   initialValue.value = {
     id: '0',
-    port_name: ''
+    port_name: '',
+    country_id: null
   };
   visible.value = true;
 };
@@ -138,7 +167,9 @@ const confirmDelete = (id: number) => {
 };
 </script>
 <style lang="scss">
-.destination__port__add input {
-  width: 100%;
+.destination__port__add {
+  input,.p-dropdown {
+    width: 100%;
+  }
 }
 </style>

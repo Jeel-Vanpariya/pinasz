@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       last_fob: { type: DataTypes.STRING(512), allowNull: false },
       currency_id: { type: DataTypes.INTEGER, allowNull: false },
       date: { type: DataTypes.DATE, allowNull: false },
+      supplier_ref_no: { type: DataTypes.TEXT("long"), allowNull: false },
+      pcs: { type: DataTypes.STRING(512), allowNull: false },
+      ctn: { type: DataTypes.STRING(512), allowNull: false },
     },
     {
       sequelize,

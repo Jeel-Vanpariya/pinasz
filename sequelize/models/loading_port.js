@@ -12,12 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasOne(models.products, { foreignKey: "loading_port_id" });
       this.hasOne(models.shipments, { foreignKey: "loading_port_id" });
+      this.belongsTo(models.countries, { foreignKey: "country_id" });
     }
   }
   loading_port.init(
     {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       port_name: { type: DataTypes.STRING(255), allowNull: false },
+      country_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

@@ -22,7 +22,8 @@
             <Button v-tooltip.top="'Generate'" icon="pi pi-sync" severity="success" rounded outlined @click="generateProductCounter" />
           </div>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="category" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <TreeSelect :model-value="value" :options="categories" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -31,7 +32,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="item_name" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="item_name" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -40,8 +42,7 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
+
         <div class="col-md-12">
           <Field name="additions_details" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
@@ -51,9 +52,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="brand" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="brand" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -62,25 +62,27 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
-          <Field name="container_type" v-slot="{ value, errorMessage, handleChange }">
+
+        <div class="col-md-4">
+          <Field name="container_type_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown
                 :model-value="value"
                 :options="containerTypes"
                 filter
-                id="container_type"
+                id="container_type_id"
                 option-label="type_name"
                 option-value="id"
                 :class="{ 'p-invalid': errorMessage }"
                 @update:model-value="handleChange"
               />
-              <label for="container_type">Container Type</label>
+              <label for="container_type_id">Container Type</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="pack" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="pack" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -89,9 +91,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="pack_size" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="pack_size" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -100,7 +101,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="uom" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="uom" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -109,7 +111,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="cbm" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="cbm" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -118,9 +121,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="loading_per_container" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="loading_per_container" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -129,7 +131,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="origin" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown id="origin" filter :model-value="value" :options="countries" option-label="name" option-value="id" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -138,27 +141,27 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
-          <Field name="loading_port" v-slot="{ value, errorMessage, handleChange }">
+
+        <div class="col-md-4">
+          <Field name="loading_port_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown
                 :model-value="value"
                 :options="loadingPorts"
                 filter
-                id="container_type"
+                id="loading_port_id"
                 option-label="port_name"
                 option-value="id"
                 :class="{ 'p-invalid': errorMessage }"
                 @update:model-value="handleChange"
               />
-              <label for="loading_port">Loading Port</label>
+              <label for="loading_port_id">Loading Port</label>
             </span>
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="last_fob" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <InputText id="last_fob" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -167,7 +170,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="currency_id" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Dropdown
@@ -185,7 +189,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="date" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <Calendar :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -194,7 +199,8 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-        <div class="col-md">
+
+        <div class="col-md-4">
           <Field name="supplier" v-slot="{ value, errorMessage, handleChange }">
             <span class="p-float-label">
               <MultiSelect
@@ -214,9 +220,38 @@
             <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
         </div>
-      </div>
-      <div class="row mt-4 product__add">
-        <div class="col-md text-center">
+
+        <div class="col-md-4">
+          <Field name="supplier_ref_no" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <Chips id="supplier_ref_no" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="supplier_ref_no">Supplier Ref no.</label>
+            </span>
+            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+
+        <div class="col-md-4">
+          <Field name="pcs" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <InputText id="pcs" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="pcs">PCS</label>
+            </span>
+            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+
+        <div class="col-md-4">
+          <Field name="ctn" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <InputText id="ctn" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="ctn">CTN</label>
+            </span>
+            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+
+        <div class="col-md-12 text-center">
           <Button label="Save" icon="pi pi-save" type="submit" class="mx-4" />
           <Button label="Cancel" icon="pi pi-times" severity="danger" @click="onCancel" />
         </div>
@@ -242,6 +277,7 @@ import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { useRoute } from 'vue-router';
 import TreeSelect from 'primevue/treeselect';
+import Chips from 'primevue/chips';
 
 const route = useRoute();
 const toast = useToast();
@@ -258,18 +294,21 @@ const schema = yup.object({
   item_name: yup.string().required('Please enter item name'),
   additions_details: yup.string(),
   brand: yup.string().required('Please enter brand'),
-  container_type: yup.number().required('Please select a container type'),
+  container_type_id: yup.number().required('Please select a container type'),
   pack: yup.string().required('Please enter pack'),
   pack_size: yup.string().required('Please enter pack size'),
   uom: yup.string().required('Please enter UOM'),
   cbm: yup.string().required('Please enter CBM'),
   loading_per_container: yup.string().required('Please enter loading per container'),
   origin: yup.number().required('Please select origin'),
-  loading_port: yup.number().required('Please select loading port'),
+  loading_port_id: yup.number().required('Please select loading port'),
   last_fob: yup.number().required('Please enter last FOB'),
   currency_id: yup.number().required('Please select currency'),
   date: yup.date().required('Please select a date'),
-  supplier: yup.array().min(1).required('Please select a supplier')
+  supplier: yup.array().min(1).required('Please select a supplier'),
+  supplier_ref_no: yup.array().min(1).required('Please enter supplier ref number'),
+  pcs: yup.string().required('Please enter pcs'),
+  ctn: yup.string().required('Please enter ctn')
 });
 
 onMounted(async () => {
@@ -348,8 +387,7 @@ const getProductSuppliers = async () => {
 const getProductForEdit = async () => {
   const res = await store.dispatch('getProductForEdit', { id: route.params.id });
   if (res.status == 'success') {
-    res.data.container_type = res.data.container_type_id;
-    res.data.loading_port = res.data.loading_port_id;
+    res.data.supplier_ref_no = JSON.parse(res.data.supplier_ref_no);
     res.data.date = new Date(res.data.date);
     if (!res.data.additions_details) delete res.data.additions_details;
     form.value.setValues(res.data);
@@ -412,11 +450,19 @@ const onCancel = () => {
 };
 </script>
 <style lang="scss">
-.product__add input,
-.product__add textarea,
-.product__add .p-dropdown,
-.product__add .p-calendar,
-.product__add .p-treeselect {
-  width: 100%;
+.product__add {
+  input,
+  textarea,
+  .p-dropdown,
+  .p-calendar,
+  .p-treeselect,
+  .p-chips,
+  .p-chips-multiple-container {
+    width: 100%;
+  }
+  .col-md-4,
+  .col-md-12 {
+    margin-bottom: 25px !important;
+  }
 }
 </style>

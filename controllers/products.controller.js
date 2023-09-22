@@ -56,12 +56,9 @@ exports.saveProduct = async ({ body: data }, res) => {
   try {
     let response;
     let insert_data = { ...data };
-    insert_data.container_type_id = data.container_type;
-    insert_data.loading_port_id = data.loading_port;
+    insert_data.supplier_ref_no = JSON.stringify(insert_data.supplier_ref_no);
     delete insert_data.category;
     delete insert_data.supplier;
-    delete insert_data.container_type;
-    delete insert_data.loading_port;
     delete insert_data.id;
     if (typeof data.id == "string") {
       const response = await db.products.create(insert_data);
@@ -124,6 +121,7 @@ exports.saveProductFromCSV = async ({ body: data }, res) => {
         object.loading_port_id = loading_port.id;
         object.origin = country.id;
         object.currency_id = currency.id;
+        object.supplier_ref_no = JSON.stringify([object.supplier_ref_no]);
         const response = await db.products.create(object);
         await db.product_category_map.create({ product_id: response.id, category_id: category.id });
         await db.product_supplier_map.create({ product_id: response.id, supplier_id: supplier.id });
