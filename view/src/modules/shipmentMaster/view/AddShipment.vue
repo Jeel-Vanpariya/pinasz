@@ -35,6 +35,13 @@
           <Divider />
           <LogisticsContainer />
         </TabPanel>
+        <TabPanel>
+          <template #header>
+            <span>Attachments</span>
+            <i class="mdi mdi-attachment ms-1" />
+          </template>
+          <Attachments/>
+        </TabPanel>
       </TabView>
       <div class="row mt-4 add__shipment">
         <div class="col-md text-center">
@@ -65,11 +72,12 @@ import PreshipmentContainer from './PreshipmentContainer.vue';
 import Finance from './Finance.vue';
 import Logistics from './Logistics.vue';
 import LogisticsContainer from './LogisticsContainer.vue';
+import Attachments from './Attachments.vue';
 
 const route = useRoute();
 const toast = useToast();
 const form = ref();
-const active = ref(0);
+const active = ref(3);
 const schema = yup.object({
   country_id: yup.number().required('Please select country'),
   po_no: yup.string().required('Please enter po no.'),
