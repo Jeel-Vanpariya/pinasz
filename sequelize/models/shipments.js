@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.shipment_po_details, { foreignKey: "shipment_id" });
       this.hasMany(models.shipments_logs, { foreignKey: "shipment_id" });
       this.hasMany(models.shipment_container_details, { foreignKey: "shipment_id" });
+      this.hasMany(models.shipment_attachments, { foreignKey: "shipment_id" });
     }
   }
   shipments.init(

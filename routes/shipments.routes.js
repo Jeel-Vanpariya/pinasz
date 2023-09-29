@@ -14,4 +14,7 @@ module.exports = (app) => {
 
   // Delete Shipment
   app.post("/api/delete-shipment", shipments.deleteShipment);
+
+  // Delete Attachments
+  app.post("/api/delete-attachments", shipments.deleteAttachments);
 };

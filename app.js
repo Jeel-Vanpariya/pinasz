@@ -30,6 +30,9 @@ app.enable("trust proxy");
 app.use(history());
 app.use(express.static("view/dist"));
 
+// Make Images "Uploads" Folder Publicly Available
+app.use("/uploads", express.static("uploads"));
+
 app.get("/", (req, res) => {
   res.sendFile("view/dist/index.html");
 });

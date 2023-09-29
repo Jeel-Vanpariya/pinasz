@@ -19,5 +19,7 @@ export default {
   products: ref([]) as unknown as Array<any>,
   poDetails: ref([]) as unknown as Array<any>,
   containerDetails: ref([]) as unknown as Array<any>,
+  attachments: ref([]) as unknown as Array<any>,
+  deleteMedia:ref([]) as unknown as Array<any>,
   formData: ref({}) as any
 };

@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const db = require("../sequelize/models/index.js");
 
 exports.saveShipment = async ({ body: data }, res) => {
@@ -24,6 +25,7 @@ exports.saveShipment = async ({ body: data }, res) => {
     await db.shipment_po_details.destroy({ where: { shipment_id: data.id } });
     await db.shipment_container_details.destroy({ where: { shipment_id: data.id } });
     await db.shipment_po_details.bulkCreate(insert_data);
+    if (data.attachments.length > 0) await db.shipment_attachments.bulkCreate(data.attachments, { updateOnDuplicate: ["shipment_id", "upload_field", "path"] });
     if (data.container_details.length > 0) {
       insert_data = [];
       for (const object of data.container_details) {
@@ -119,12 +121,12 @@ exports.getShipments = async ({ body: data }, res) => {
         },
         {
           model: db.currencies,
-          as:'currency',
+          as: "currency",
           attributes: [],
         },
         {
           model: db.suppliers,
-          as:'agent',
+          as: "agent",
           attributes: [],
         },
       ],
@@ -180,7 +182,8 @@ exports.getShipmentForEdit = async ({ body: data }, res) => {
     const response = await db.shipments.findOne({ where: { id: data.id } });
     const shipment_details = await db.shipment_po_details.findAll({ where: { shipment_id: data.id } });
     const container_details = await db.shipment_container_details.findAll({ where: { shipment_id: data.id } });
-    res.send({ status: "success", data: response, po_details: shipment_details, container_details: container_details });
+    const shipment_attachments = await db.shipment_attachments.findAll({ where: { shipment_id: data.id } });
+    res.send({ status: "success", data: response, po_details: shipment_details, container_details, shipment_attachments });
   } catch (error) {
     console.log(error);
     res.status(200).send({ status: "error", message: error });
@@ -190,6 +193,16 @@ exports.getShipmentForEdit = async ({ body: data }, res) => {
 exports.deleteShipment = async ({ body: data }, res) => {
   try {
     const response = await db.shipments.destroy({ where: { id: data.id } });
+    res.send({ status: "success", data: response });
+  } catch (error) {
+    console.log(error);
+    res.status(200).send({ status: "error", message: error });
+  }
+};
+
+exports.deleteAttachments = async ({ body: data }, res) => {
+  try {
+    const response = await db.shipment_attachments.destroy({ where: { id: { [Op.in]: data.IDs } } });
     res.send({ status: "success", data: response });
   } catch (error) {
     console.log(error);

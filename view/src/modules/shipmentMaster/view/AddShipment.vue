@@ -35,12 +35,12 @@
           <Divider />
           <LogisticsContainer />
         </TabPanel>
-        <TabPanel>
+        <TabPanel v-if="route.params.id">
           <template #header>
             <span>Attachments</span>
             <i class="mdi mdi-attachment ms-1" />
           </template>
-          <Attachments/>
+          <Attachments @getFormValues="getFormValues" />
         </TabPanel>
       </TabView>
       <div class="row mt-4 add__shipment">
@@ -73,6 +73,7 @@ import Finance from './Finance.vue';
 import Logistics from './Logistics.vue';
 import LogisticsContainer from './LogisticsContainer.vue';
 import Attachments from './Attachments.vue';
+import { removeFile } from '@/helpers/fileHelper';
 
 const route = useRoute();
 const toast = useToast();
@@ -331,7 +332,7 @@ const getShipmentForEdit = async () => {
     if (res.data.draft_cnca) res.data.draft_cnca = new Date(res.data.draft_cnca);
     if (res.data.original_cnca) res.data.original_cnca = new Date(res.data.original_cnca);
     if (res.data.dup) res.data.dup = new Date(res.data.dup);
-    
+
     form.value.setValues(res.data);
 
     const supplier = store.state.suppliers.filter((item) => item.id == res.data.supplier_id)[0];
@@ -353,11 +354,14 @@ const getShipmentForEdit = async () => {
       }
       store.state.containerDetails = res.container_details;
     }
+
+    if (res.shipment_attachments.length > 0) store.state.attachments = res.shipment_attachments;
   }
 };
 
 const getFormValues = () => {
   store.state.formData = form.value.getValues();
+  store.state.formData.id = Number(route.params.id);
 };
 
 const setFormValues = (field: string, value: any) => {
@@ -385,7 +389,7 @@ const checkShipmentCounter = async () => {
     return false;
   }
 
-  store.state.spinner = false;
+  store.state.spinner = true;
   const res = await store.dispatch('checkShipmentCounter', { po_no: str, id: route.params.id });
   store.state.spinner = false;
   if (res.status == 'success') {
@@ -398,8 +402,6 @@ const checkShipmentCounter = async () => {
 };
 
 const onSubmit = async (data: any, { resetForm }: any) => {
-  console.log(data);
-  
   let error = false;
   const res = await checkShipmentCounter();
   if (!res) {
@@ -433,12 +435,21 @@ const onSubmit = async (data: any, { resetForm }: any) => {
   }
 
   if (!error) {
+    store.state.spinner = true;
+    if (store.state.deleteMedia.length > 0) {
+      for (const obj of store.state.deleteMedia) {
+        await removeFile({ path: obj.path });
+      }
+      await store.dispatch('deleteAttachments', { IDs: store.state.deleteMedia.map((item) => item.id) });
+    }
     const res = await store.dispatch('saveShipment', {
       id: route.params.id ? Number(route.params.id) : '0',
       data: data,
       po_details: store.state.poDetails,
-      container_details: store.state.containerDetails
+      container_details: store.state.containerDetails,
+      attachments: store.state.attachments
     });
+    store.state.spinner = false;
     if (res.status == 'success') {
       toast.add({ severity: 'success', summary: 'Success Message', detail: 'Successfully saved', life: 2500 });
       resetForm();
@@ -449,7 +460,14 @@ const onSubmit = async (data: any, { resetForm }: any) => {
   }
 };
 
-const onCancel = () => {
+const onCancel = async () => {
+  store.state.spinner = true;
+  if (store.state.attachments.length > 0) {
+    for (const obj of store.state.attachments) {
+      if (typeof obj.id == 'string') await removeFile({ path: obj.path });
+    }
+  }
+  store.state.spinner = false;
   router.push({ name: 'ShipmentList' });
 };
 </script>

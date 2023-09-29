@@ -80,5 +80,13 @@ export default {
     } catch (error) {
       return { status: 'error', data: error };
     }
+  },
+  async deleteAttachments(_: any, data: any) {
+    try {
+      const response = await axios.post('delete-attachments', data);
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
   }
 };
