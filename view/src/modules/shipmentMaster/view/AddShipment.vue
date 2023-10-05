@@ -78,7 +78,7 @@ import { removeFile } from '@/helpers/fileHelper';
 const route = useRoute();
 const toast = useToast();
 const form = ref();
-const active = ref(3);
+const active = ref(2);
 const schema = yup.object({
   country_id: yup.number().required('Please select country'),
   po_no: yup.string().required('Please enter po no.'),

@@ -1,6 +1,12 @@
 <template>
-  <Form :validation-schema="schema" @submit="handleRowAdd">
-    <div class="row mt-5 add__shipment">
+  <div class="d-flex justify-content-end">
+    <FileUpload class="mx-3" mode="basic" accept="text/csv" chooseLabel="Import CSV" :auto="true" customUpload @uploader="onUpload" />
+    <download-csv :data="[sample_json]" name="sample.csv">
+      <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
+    </download-csv>
+  </div>
+  <Form ref="form" :validation-schema="schema" @submit="handleRowAdd">
+    <div class="row mt-4 add__shipment">
       <div class="col-md-3">
         <Field name="container_no" v-slot="{ value, errorMessage, handleChange }">
           <span class="p-float-label">
@@ -58,12 +64,6 @@
       <div class="col-md">
         <Button label="Add" icon="pi pi-plus" type="submit" />
       </div>
-      <div class="col-md-12 d-flex justify-content-end">
-        <FileUpload class="mx-3" mode="basic" accept="text/csv" chooseLabel="Import CSV" :auto="true" customUpload @uploader="onUpload" />
-        <download-csv :data="[sample_json]" name="sample.csv">
-          <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
-        </download-csv>
-      </div>
     </div>
   </Form>
   <div class="mt-4">
@@ -94,6 +94,11 @@
       </Column>
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
+          <span class="pi pi-pencil" @click="handleRowEdit(slotProps.data)" />
+        </template>
+      </Column>
+      <Column :exportable="false" alignFrozen="right" :frozen="true">
+        <template #body="slotProps">
           <span class="pi pi-trash" @click="handleRowDelete(slotProps.index)" />
         </template>
       </Column>
@@ -117,6 +122,7 @@ import FileUpload from 'primevue/fileupload';
 import Papa from 'papaparse';
 
 const toast = useToast();
+const form = ref();
 const dt = ref();
 const schema = yup.object({
   container_no: yup.string().required('Please enter container'),
@@ -134,20 +140,32 @@ const sample_json = {
   qty: ''
 };
 
+const handleRowEdit = (data: any) => {
+  form.value.setValues(data);
+};
+
 const handleRowAdd = (data: any, { resetForm }: any) => {
   const po_product = store.state.poDetails.filter((item: any) => item.item_id == data.item_id)[0],
-    qty = store.state.containerDetails.filter((item: any) => item.item_id == data.item_id).reduce((a: any, b: any) => a + b.qty, 0);
+    qty = store.state.containerDetails.filter((item: any) => item.item_id == data.item_id).reduce((a: any, b: any) => a + b.qty, 0),
+    containerDetail = store.state.containerDetails.filter((item) => item.container_no == data.container_no && item.item_id == data.item_id)[0];
   if (po_product.qty >= qty + data.qty) {
-    store.state.containerDetails.push({
-      id: `${Math.floor(1000 + Math.random() * 9000)}`,
-      type_name: store.state.containerTypes.filter((item) => item.id == data.container_type_id)[0].type_name,
-      container_type_id: data.container_type_id,
-      item_name: po_product.item_name,
-      item_id: data.item_id,
-      container_no: data.container_no,
-      qty: data.qty,
-      uom: po_product.uom
-    });
+    if (containerDetail) {
+      const index = store.state.containerDetails.findIndex((item) => item.id == containerDetail.id);
+      store.state.containerDetails[index].type_name = store.state.containerTypes.filter((item) => item.id == data.container_type_id)[0].type_name;
+      store.state.containerDetails[index].container_type_id = data.container_type_id;
+      store.state.containerDetails[index].qty = data.qty;
+    } else {
+      store.state.containerDetails.push({
+        id: `${Math.floor(1000 + Math.random() * 9000)}`,
+        type_name: store.state.containerTypes.filter((item) => item.id == data.container_type_id)[0].type_name,
+        container_type_id: data.container_type_id,
+        item_name: po_product.item_name,
+        item_id: data.item_id,
+        container_no: data.container_no,
+        qty: data.qty,
+        uom: po_product.uom
+      });
+    }
     resetForm();
     return;
   }
@@ -162,17 +180,17 @@ const onUpload = (e: any) => {
       if (Object.keys(sample_json).filter((item: string) => res.meta.fields.indexOf(item) == -1).length == 0) {
         for (const object of res.data) {
           for (const key in object) {
-            if (object[key].replace(/\s/g,'').length == 0) {
+            if (object[key].replace(/\s/g, '').length == 0) {
               toast.add({ severity: 'error', summary: 'Error Message', detail: 'Some of fields found empty in CSV', life: 3000 });
               return;
             }
           }
         }
         for (const object of res.data) {
-          const containerType = store.state.containerTypes.filter((item) => item.type_name.replace(/\s/g,'').toLowerCase() == object.container_type.replace(/\s/g,'').toLowerCase())[0];
+          const containerType = store.state.containerTypes.filter((item) => item.type_name.replace(/\s/g, '').toLowerCase() == object.container_type.replace(/\s/g, '').toLowerCase())[0];
           const poDetails = store.state.poDetails.filter((item) => item.item_name.includes(object.item_no))[0];
-          const containerDetail = store.state.containerDetails.filter((item) => item.container_no.includes(object.container_no) && item.item_name.includes(object.item_no))[0];
-          
+          const containerDetail = store.state.containerDetails.filter((item) => item.container_no == object.container_no && item.item_name.includes(object.item_no))[0];
+
           if (containerDetail) {
             containerDetail.qty += Math.trunc(object.qty);
             if (poDetails.qty < containerDetail.qty) containerDetail.qty = poDetails.qty;

@@ -5,12 +5,13 @@
         <Button label="Add Shipment" icon="pi pi-plus" />
       </RouterLink>
     </template>
-    <DataTable :value="shipments" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" scrollable filterDisplay="row" dataKey="id" removableSort paginator>
+    <DataTable :value="shipments" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" scrollable filterDisplay="row" dataKey="id" ref="dt" removableSort paginator>
       <template #header>
-        <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
+        <div class="d-flex justify-content-end">
+          <Button class="mx-3" icon="pi pi-external-link" label="Export" severity="secondary" @click="exportCSV" />
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
-            <InputText v-model="filters['global'].value" placeholder="Search..." />
+            <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
           </span>
         </div>
       </template>
@@ -427,6 +428,7 @@ import dayjs from 'dayjs';
 import Dialog from 'primevue/dialog';
 
 const confirm = useConfirm();
+const dt = ref();
 const shipments = ref([]);
 const visible = ref(false);
 const header = ref('');
@@ -544,5 +546,9 @@ const confirmDeleteShipment = (id: number) => {
       }
     }
   });
+};
+
+const exportCSV = () => {
+    dt.value.exportCSV();
 };
 </script>
