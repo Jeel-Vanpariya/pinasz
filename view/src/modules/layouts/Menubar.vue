@@ -87,6 +87,10 @@ const menuItems = ref([
         label: 'Blueprints',
         command: () => router.push({ name: 'ReportBlueprintList' })
       },
+      {
+        label: 'Reports',
+        command: () => router.push({ name: 'ReportList' })
+      }
     ]
   }
 ]);
