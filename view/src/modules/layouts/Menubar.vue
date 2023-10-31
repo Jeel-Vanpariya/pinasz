@@ -79,10 +79,15 @@ const menuItems = ref([
   {
     label: 'User Master',
     command: () => router.push({ name: 'UsersList' })
+  },
+  {
+    label: 'Report Master',
+    items: [
+      {
+        label: 'Blueprints',
+        command: () => router.push({ name: 'ReportBlueprintList' })
+      },
+    ]
   }
-  // {
-  //   label: 'Report Master',
-  //   command: () => router.push({ name: 'ReportBlueprint' })
-  // }
 ]);
 </script>

@@ -159,7 +159,7 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
-      <Column field="s_f_inv_no" header="Supplier Final Invoice number" sortable style="min-width: 20rem">
+      <Column field="s_f_inv_no" header="Supplier Final Invoice no" sortable style="min-width: 20rem">
         <template #body="{ data }">{{ data.s_f_inv_no }}</template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />

@@ -181,9 +181,33 @@ const router = createRouter({
       beforeEnter: checkAuth
     },
     {
-      path: '/report-blueprint',
-      name: 'ReportBlueprint',
-      component: () => import('../modules/reportMaster/view/ReportBlueprint.vue'),
+      path: '/report-blueprints',
+      name: 'ReportBlueprintList',
+      component: () => import('../modules/reportMaster/view/ReportBlueprintList.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/create-report-blueprint',
+      name: 'CreateReportBlueprint',
+      component: () => import('../modules/reportMaster/view/CreateReportBlueprint.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/create-report-blueprint/:id',
+      name: 'EditReportBlueprint',
+      component: () => import('../modules/reportMaster/view/CreateReportBlueprint.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/create-report/:id',
+      name: 'CreateReport',
+      component: () => import('../modules/reportMaster/view/CreateReport.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/reports',
+      name: 'ReportList',
+      component: () => import('../modules/reportMaster/view/ReportList.vue'),
       beforeEnter: checkAuth
     }
   ],

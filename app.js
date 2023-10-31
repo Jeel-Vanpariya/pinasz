@@ -50,4 +50,4 @@ fs.readdirSync("./routes").forEach((file) => {
   }
 });
 // set port, listen for requests
-app.listen(process.env.PORT || 4000, () => {});
+app.listen(process.env.PORT || 4002, () => {});

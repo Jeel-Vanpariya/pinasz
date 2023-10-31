@@ -17,7 +17,7 @@ import '@mdi/font/css/materialdesignicons.css';
 const app = createApp(App);
 
 if (window.location.hostname == 'localhost') {
-  axios.defaults.baseURL = 'http://localhost:4000/api/';
+  axios.defaults.baseURL = 'http://localhost:4002/api/';
 } else {
   axios.defaults.baseURL = `${location.origin}/api/`;
 }
