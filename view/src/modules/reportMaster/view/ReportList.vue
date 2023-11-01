@@ -129,8 +129,6 @@ const handleMailDialog = (url: string) => {
 };
 
 const onSubmit = async (data) => {
-    console.log(data);
-    
   if (data.emails.length == 0 && data.user_emails.length == 0) return;
   store.state.spinner = true;
   const res = await store.dispatch('sendMail', data);
