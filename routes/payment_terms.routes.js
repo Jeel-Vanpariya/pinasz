@@ -8,4 +8,7 @@ module.exports = (app) => {
 
   // Delete Payment Term
   app.post("/api/delete-payment-term", payment_terms.deletePaymentTerm);
+
+  // Get Payment Terms
+  app.post("/api/get-payment-terms", payment_terms.getPaymentTerms);
 };

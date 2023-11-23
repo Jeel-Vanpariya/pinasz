@@ -41,6 +41,14 @@ export default {
       return { status: 'error', data: error };
     }
   },
+  async getPaymentTerms() {
+    try {
+      const response = await axios.post('get-payment-terms');
+      return response.data;
+    } catch (error) {
+      return { status: 'error', data: error };
+    }
+  },
   async saveShipment(_: any, data: any) {
     try {
       const response = await axios.post('save-shipment', data);

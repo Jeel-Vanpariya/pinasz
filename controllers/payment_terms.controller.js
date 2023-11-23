@@ -26,3 +26,30 @@ exports.deletePaymentTerm = async ({ body: data }, res) => {
     res.status(200).send({ status: "error", message: error });
   }
 };
+
+exports.getPaymentTerms = async (req, res) => {
+  try {
+    const response = await db.payment_terms.findAll({
+      attributes: [
+        'id',
+        [
+          db.sequelize.fn(
+            "CONCAT",
+            db.sequelize.col("advance_percentage"),
+            "% ",
+            db.sequelize.col("advance_text"),
+            " - ",
+            db.sequelize.col("pending_percentage"),
+            "% ",
+            db.sequelize.col("pending_text")
+          ),
+          "payment_term",
+        ],
+      ],
+    });
+    res.send({ status: "success", data: response });
+  } catch (error) {
+    console.log(error);
+    res.status(200).send({ status: "error", message: error });
+  }
+};

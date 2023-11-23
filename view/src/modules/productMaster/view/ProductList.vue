@@ -2,7 +2,6 @@
   <Panel header="Products" class="p-4">
     <template #icons>
       <div class="d-flex">
-        <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help"  @click="()=>{console.log(filters)}"/>
         <download-csv :data="[sample_json]" name="sample.csv">
           <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
         </download-csv>

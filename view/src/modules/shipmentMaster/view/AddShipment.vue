@@ -153,7 +153,7 @@ const refreshMasters = async () => {
   await getBuyers();
   await getCustomers();
   await getInvoicingParty();
-  await getPaymentTerm();
+  await getPaymentTerms();
   await getLoadingPort();
   await getDestinationPort();
   await getFinalDestination();
@@ -207,13 +207,11 @@ const getInvoicingParty = async () => {
   }
 };
 
-const getPaymentTerm = async () => {
+const getPaymentTerms = async () => {
   store.state.paymentTerms = [];
-  const res = await store.dispatch('getPaymentTerm');
+  const res = await store.dispatch('getPaymentTerms');
   if (res.status == 'success' && res.data.length > 0) {
-    for (const object of res.data) {
-      store.state.paymentTerms.push(`${object.advance_percentage}% ${object.advance_text} - ${object.pending_percentage}% ${object.pending_text}`);
-    }
+    store.state.paymentTerms = res.data;
   }
 };
 
