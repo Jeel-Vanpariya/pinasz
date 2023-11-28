@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
       item_no: { type: DataTypes.STRING(512), allowNull: false },
       item_name: { type: DataTypes.STRING(512), allowNull: false },
-      additions_details: { type: DataTypes.STRING(512), allowNull: false },
+      additions_details: DataTypes.STRING(512),
       brand: { type: DataTypes.STRING(512), allowNull: false },
       container_type_id: { type: DataTypes.INTEGER, allowNull: false },
       pack: { type: DataTypes.STRING(512), allowNull: false },

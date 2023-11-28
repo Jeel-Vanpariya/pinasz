@@ -20,7 +20,22 @@
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
         </template>
       </Column>
-      <Column field="columns" header="Report Columns" sortable style="min-width: 20rem">
+      <Column field="primary_master" header="Primary Master" sortable style="min-width: 15rem">
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="second_master" header="Second Master" sortable style="min-width: 15rem">
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="third_master" header="Third Master" sortable style="min-width: 15rem">
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column field="columns" header="Report Columns" sortable style="min-width: 30rem">
         <template #body="{ data }"><Tree :value="data.columns" /></template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
@@ -62,6 +77,9 @@ const blueprints = ref([]);
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  primary_master: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  second_master: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  third_master: { value: null, matchMode: FilterMatchMode.CONTAINS },
   columns: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
@@ -75,6 +93,7 @@ const getReportBlueprints = async () => {
   store.state.spinner = false;
   if (res.status == 'success') {
     blueprints.value = await store.dispatch('getSelectedModules', { report_columns: {}, columns: {}, res: res.data }).then((res) => {
+      console.log(res.res);
       return res.res;
     });
   }

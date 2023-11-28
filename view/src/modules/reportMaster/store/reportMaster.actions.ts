@@ -95,6 +95,10 @@ export default {
       for (const item of data.res) {
         item.report_columns = typeof item.report_columns == 'string' ? JSON.parse(item.report_columns) : item.report_columns;
         if (!item.columns) item.columns = [];
+        if (item.primary_master == object.data) item.primary_master = object.label;
+        if (item.second_master == object.data) item.second_master = object.label;
+        if (item.third_master == object.data) item.third_master = object.label;
+        if (item.forth_master == object.data) item.forth_master = object.label;
         if (item.report_columns[object.data] && item.columns.filter((obj: any) => obj.key == object.key).length == 0) {
           const node = { key: object.key, label: object.label, children: [] as any };
           for (const obj of object.children) {
