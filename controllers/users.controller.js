@@ -24,6 +24,7 @@ exports.saveUser = async ({ body: data }, res) => {
           email: data.email,
           password: md5(password),
           status: data.status,
+          role_id: data.role_id,
         });
         const transporter = nodemailer.createTransport(mailConfiguration);
         const readHTMLFile = function (path, callback) {
@@ -61,6 +62,7 @@ exports.saveUser = async ({ body: data }, res) => {
           name: data.name,
           email: data.email,
           status: data.status,
+          role_id: data.role_id,
         },
         { where: { id: data.id } }
       );
@@ -75,7 +77,16 @@ exports.saveUser = async ({ body: data }, res) => {
 
 exports.getUsers = async (req, res) => {
   try {
-    const response = await db.users.findAll({ attributes: { exclude: ["password"] } });
+    const response = await db.users.findAll({
+      attributes: ["id", "email", "name", "role_id", [db.sequelize.col("role.name"), "role"]],
+      raw: true,
+      include: [
+        {
+          model: db.roles,
+          attributes: [],
+        },
+      ],
+    });
     res.send({ status: "success", data: response });
   } catch (error) {
     console.log(error);
@@ -106,10 +117,18 @@ exports.userLogin = async ({ body: data }, res) => {
 exports.checkUser = async ({ body: data }, res) => {
   try {
     let response = await db.users.findOne({
+      attributes: ["id", "status", "role.permissions"],
       where: { id: data.id },
+      raw: true,
+      include: [
+        {
+          model: db.roles,
+          attributes: [],
+        },
+      ],
     });
     if (response) {
-      if (response.dataValues.status) res.send({ status: "success" });
+      if (response.status) res.send({ status: "success", data: response });
       else res.send({ status: "error", message: "Account is not active" });
     } else res.send({ status: "error", message: "User not found" });
   } catch (error) {

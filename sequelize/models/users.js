@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.customer_logs, { foreignKey: "user_id" });
       this.hasMany(models.supplier_logs, { foreignKey: "user_id" });
       this.hasMany(models.shipments_logs, { foreignKey: "user_id" });
+      this.belongsTo(models.roles, { foreignKey: "role_id" });
     }
   }
   users.init(
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       email: { type: DataTypes.STRING(512), allowNull: false },
       password: { type: DataTypes.STRING(255), allowNull: false },
       status: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
+      role_id: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

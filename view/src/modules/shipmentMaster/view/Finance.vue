@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-4 add__shipment__finance">
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('adv_rec_date') || store.state.permission.shipment_edit.finance.includes('adv_rec_date') ? 'd-none' : '']">
       <Field name="adv_rec_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="adv_rec_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -10,7 +10,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('adv_pay_date') || store.state.permission.shipment_edit.finance.includes('adv_pay_date') ? 'd-none' : '']">
       <Field name="adv_pay_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="adv_pay_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -20,7 +20,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('purchase_invoice') || store.state.permission.shipment_edit.finance.includes('purchase_invoice') ? 'd-none' : '']">
       <Field name="purchase_invoice" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="purchase_invoice" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -30,7 +30,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4 d-flex justify-content-between">
+    <div
+      class="col-md-4 d-flex justify-content-between"
+      :class="[store.state.permission.shipment_add.finance.includes('sale_invoice_val') || store.state.permission.shipment_edit.finance.includes('sale_invoice_val') ? 'd-none' : '']"
+    >
       <div>
         <Field name="sale_invoice_val" v-slot="{ value, errorMessage, handleChange }">
           <span class="p-float-label">
@@ -61,7 +64,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('sale_inv_no') || store.state.permission.shipment_edit.finance.includes('sale_inv_no') ? 'd-none' : '']">
       <Field name="sale_inv_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="sale_inv_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -71,7 +74,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('s_f_inv_no') || store.state.permission.shipment_edit.finance.includes('s_f_inv_no') ? 'd-none' : '']">
       <Field name="s_f_inv_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="s_f_inv_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -81,7 +84,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4 d-flex justify-content-between">
+    <div
+      class="col-md-4 d-flex justify-content-between"
+      :class="[store.state.permission.shipment_add.finance.includes('s_final_inv_value') || store.state.permission.shipment_edit.finance.includes('s_final_inv_value') ? 'd-none' : '']"
+    >
       <div>
         <Field name="s_final_inv_value" v-slot="{ value, errorMessage, handleChange }">
           <span class="p-float-label">
@@ -112,7 +118,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('final_rec_date') || store.state.permission.shipment_edit.finance.includes('final_rec_date') ? 'd-none' : '']">
       <Field name="final_rec_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="final_rec_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -122,7 +128,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('final_pay_date') || store.state.permission.shipment_edit.finance.includes('final_pay_date') ? 'd-none' : '']">
       <Field name="final_pay_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="final_pay_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -132,7 +138,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('percentage') || store.state.permission.shipment_edit.finance.includes('percentage') ? 'd-none' : '']">
       <Field name="percentage" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputNumber id="percentage" inputId="percent" suffix="%" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -142,7 +148,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('payment_request_lot') || store.state.permission.shipment_edit.finance.includes('payment_request_lot') ? 'd-none' : '']">
       <Field name="payment_request_lot" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="payment_request_lot" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -152,7 +158,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4 d-none">
+    <div
+      class="col-md-4 d-none"
+      :class="[store.state.permission.shipment_add.finance.includes('commission') || store.state.permission.shipment_edit.finance.includes('commission') ? 'd-none' : '']"
+    >
       <Field name="commission" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputNumber
@@ -170,7 +179,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4 d-none">
+    <div
+      class="col-md-4 d-none"
+      :class="[store.state.permission.shipment_add.finance.includes('share') || store.state.permission.shipment_edit.finance.includes('share') ? 'd-none' : '']"
+    >
       <Field name="share" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputNumber
@@ -187,7 +199,7 @@
         <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
       </Field>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.finance.includes('shipping_line') || store.state.permission.shipment_edit.finance.includes('shipping_line') ? 'd-none' : '']">
       <Field name="shipping_line_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown

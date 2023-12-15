@@ -2,11 +2,11 @@
   <Panel header="Products" class="p-4">
     <template #icons>
       <div class="d-flex">
-        <download-csv :data="[sample_json]" name="sample.csv">
+        <download-csv v-if="store.state.permission.product.includes('add')" :data="[sample_json]" name="sample.csv">
           <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
         </download-csv>
-        <FileUpload class="mx-4" mode="basic" name="demo[]" accept="text/csv" :auto="true" customUpload @uploader="onUpload" chooseLabel="Import CSV" />
-        <RouterLink :to="{ name: 'AddProduct' }">
+        <FileUpload v-if="store.state.permission.product.includes('add')" class="mx-4" mode="basic" name="demo[]" accept="text/csv" :auto="true" customUpload @uploader="onUpload" chooseLabel="Import CSV" />
+        <RouterLink v-if="store.state.permission.product.includes('add')" :to="{ name: 'AddProduct' }">
           <Button label="Add Product" icon="pi pi-plus" />
         </RouterLink>
       </div>
@@ -149,10 +149,10 @@
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
-            <RouterLink :to="{ name: 'EditProduct', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.product.includes('edit')" :to="{ name: 'EditProduct', params: { id: slotProps.data.id } }">
               <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
             </RouterLink>
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
+            <Button v-if="store.state.permission.product.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
           </div>
         </template>
       </Column>

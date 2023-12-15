@@ -7,9 +7,10 @@
   </Menubar>
 </template>
 <script lang="ts" setup>
-import { defineAsyncComponent, ref } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import Menubar from 'primevue/menubar';
 import router from '@/router';
+import store from '@/stores';
 
 const UserSettings = defineAsyncComponent(() => import('../user-settings/view/UserSettings.vue'));
 const menuItems = ref([
@@ -78,7 +79,16 @@ const menuItems = ref([
   },
   {
     label: 'User Master',
-    command: () => router.push({ name: 'UsersList' })
+    items: [
+      {
+        label: 'Roles',
+        command: () => router.push({ name: 'CreateRole' })
+      },
+      {
+        label: 'Users',
+        command: () => router.push({ name: 'UsersList' })
+      }
+    ]
   },
   {
     label: 'Report Master',
@@ -94,4 +104,14 @@ const menuItems = ref([
     ]
   }
 ]);
+
+onMounted(() => {
+  if (!store.state.permission.other.includes('view')) menuItems.value.splice(0, 1);
+  if (!store.state.permission.product.includes('view')|| !store.state.permission.product.includes('categoryView')) menuItems.value.splice(1, 1);
+  if (!store.state.permission.supplier.includes('view')) menuItems.value.splice(2, 1);
+  if (!store.state.permission.customer.includes('view')) menuItems.value.splice(3, 1);
+  if (!store.state.permission.shipment.includes('view')) menuItems.value.splice(4, 1);
+  if (!store.state.permission.user.includes('view')|| !store.state.permission.user.includes('roleView')) menuItems.value.splice(5, 1);
+  if (!store.state.permission.report.includes('view')|| !store.state.permission.report.includes('blueprintView')) menuItems.value.splice(6, 1);
+});
 </script>

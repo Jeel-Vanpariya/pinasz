@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-4 add__shipment__logistics">
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('dhl_no') || store.state.permission.shipment_edit.logistics.includes('dhl_no') ? 'd-none' : '']">
       <Field name="dhl_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="dhl_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -20,7 +20,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('cod_number') || store.state.permission.shipment_edit.logistics.includes('cod_number') ? 'd-none' : '']">
       <Field name="cod_number" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="cod_number" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -30,7 +30,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('rfi_date') || store.state.permission.shipment_edit.logistics.includes('rfi_date') ? 'd-none' : '']">
       <Field name="rfi_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="rfi_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -40,7 +40,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('consignee') || store.state.permission.shipment_edit.logistics.includes('consignee') ? 'd-none' : '']">
       <Field name="consignee_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -59,7 +59,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div
+      class="col-md-4"
+      :class="[store.state.permission.shipment_add.logistics.includes('freight_booking_date') || store.state.permission.shipment_edit.logistics.includes('freight_booking_date') ? 'd-none' : '']"
+    >
       <Field name="freight_booking_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="freight_booking_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -69,7 +72,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div
+      class="col-md-4"
+      :class="[store.state.permission.shipment_add.logistics.includes('estimated_dob') || store.state.permission.shipment_edit.logistics.includes('estimated_dob') ? 'd-none' : '']"
+    >
       <Field name="estimated_dob" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="estimated_dob" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -79,7 +85,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div
+      class="col-md-4"
+      :class="[store.state.permission.shipment_add.logistics.includes('freight_booking_no') || store.state.permission.shipment_edit.logistics.includes('freight_booking_no') ? 'd-none' : '']"
+    >
       <Field name="freight_booking_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="freight_booking_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -89,7 +98,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('bl_no') || store.state.permission.shipment_edit.logistics.includes('bl_no') ? 'd-none' : '']">
       <Field name="bl_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="bl_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -99,7 +108,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('revised_dob') || store.state.permission.shipment_edit.logistics.includes('revised_dob') ? 'd-none' : '']">
       <Field name="revised_dob" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="revised_dob" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -109,7 +118,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('actual_dob') || store.state.permission.shipment_edit.logistics.includes('actual_dob') ? 'd-none' : '']">
       <Field name="actual_dob" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="actual_dob" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -119,7 +128,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('scan_bl_date') || store.state.permission.shipment_edit.logistics.includes('scan_bl_date') ? 'd-none' : '']">
       <Field name="scan_bl_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="scan_bl_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -129,7 +138,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('stuf_photo') || store.state.permission.shipment_edit.logistics.includes('stuf_photo') ? 'd-none' : '']">
       <Field name="stuf_photo" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="stuf_photo" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -139,7 +148,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div
+      class="col-md-4"
+      :class="[store.state.permission.shipment_add.logistics.includes('est_arriv_date') || store.state.permission.shipment_edit.logistics.includes('est_arriv_date') ? 'd-none' : '']"
+    >
       <Field name="est_arriv_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="est_arriv_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -149,7 +161,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('draft_cnca') || store.state.permission.shipment_edit.logistics.includes('draft_cnca') ? 'd-none' : '']">
       <Field name="draft_cnca" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="draft_cnca" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -159,7 +171,10 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div
+      class="col-md-4"
+      :class="[store.state.permission.shipment_add.logistics.includes('original_cnca') || store.state.permission.shipment_edit.logistics.includes('original_cnca') ? 'd-none' : '']"
+    >
       <Field name="original_cnca" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="original_cnca" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -169,7 +184,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('cnca_agent') || store.state.permission.shipment_edit.logistics.includes('cnca_agent') ? 'd-none' : '']">
       <Field name="cnca_agent_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -188,7 +203,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4" :class="[store.state.permission.shipment_add.logistics.includes('dup') || store.state.permission.shipment_edit.logistics.includes('dup') ? 'd-none' : '']">
       <Field name="dup" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="dup" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -198,7 +213,7 @@
       </Field>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" :class="[store.state.permission.shipment_add.logistics.includes('remarks') || store.state.permission.shipment_edit.logistics.includes('remarks') ? 'd-none' : '']">
       <Field name="remarks" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Textarea id="remarks" :model-value="value" autoResize rows="3" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />

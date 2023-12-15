@@ -1,5 +1,5 @@
 <template>
-  <Panel header="Products" class="p-4">
+  <Panel header="Reports" class="p-4">
     <DataTable :value="reports" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" scrollable dataKey="id" removableSort paginator>
       <template #header>
         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2">
@@ -20,8 +20,8 @@
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
-            <Button icon="mdi mdi-email-arrow-right-outline" class="mx-3" outlined rounded @click="handleMailDialog(`${axios.defaults.baseURL?.split('api/')[0]}${slotProps.data.path}`)" />
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
+            <Button v-if="store.state.permission.report.includes('email')" icon="mdi mdi-email-arrow-right-outline" class="mx-3" outlined rounded @click="handleMailDialog(`${axios.defaults.baseURL?.split('api/')[0]}${slotProps.data.path}`)" />
+            <Button v-if="store.state.permission.report.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
           </div>
         </template>
       </Column>

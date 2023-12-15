@@ -1,7 +1,7 @@
 <template>
   <Panel header="Users" class="p-4">
     <template #icons>
-      <Button label="Add User" icon="pi pi-plus" @click="handleModelVisibility" />
+      <Button v-if="store.state.permission.user.includes('add')" label="Add User" icon="pi pi-plus" @click="handleModelVisibility" />
     </template>
     <DataTable :value="users" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" filterDisplay="row" dataKey="id" removableSort paginator>
       <template #header>
@@ -41,11 +41,17 @@
           </Dropdown>
         </template>
       </Column>
-      <Column :exportable="false">
+      <Column field="role" header="Role" sortable>
+        <template #body="{ data }">{{ data.role }}</template>
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText v-model="filterModel.value" type="text" @input="filterCallback()" class="p-column-filter" />
+        </template>
+      </Column>
+      <Column :exportable="false" style="width: 10vw">
         <template #body="slotProps">
           <div class="text-end">
-            <Button icon="pi pi-pencil" outlined rounded class="mx-3" @click="editUser(slotProps.data)" />
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="deleteUser(slotProps.data.id)" />
+            <Button v-if="store.state.permission.supplier.includes('edit')" icon="pi pi-pencil" outlined rounded class="mx-3" @click="editUser(slotProps.data)" />
+            <Button v-if="store.state.permission.supplier.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="deleteUser(slotProps.data.id)" />
           </div>
         </template>
       </Column>
@@ -68,6 +74,15 @@
             <span class="p-float-label">
               <InputText id="email" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
               <label for="email">Enter email</label>
+            </span>
+            <small class="p-error fw-normal" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+          </Field>
+        </div>
+        <div class="col-md-12 mt-4">
+          <Field name="role_id" v-slot="{ value, errorMessage, handleChange }">
+            <span class="p-float-label">
+              <Dropdown :options="roles" option-value="id" option-label="name" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
+              <label for="role_id">Role</label>
             </span>
             <small class="p-error fw-normal" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
           </Field>
@@ -114,35 +129,46 @@ const confirm = useConfirm();
 const toast = useToast();
 const form = ref();
 const users = ref([]);
+const roles = ref([]);
 const status = ref(['Activated', 'Deactivated']);
 const visible = ref(false);
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   name: { value: null, matchMode: FilterMatchMode.CONTAINS },
   email: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  role: { value: null, matchMode: FilterMatchMode.CONTAINS },
   label: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 const schema = yup.object({
   id: yup.mixed(),
   name: yup.string().required('Please enter name'),
   email: yup.string().email().required('Please enter email'),
+  role_id: yup.number().required('Please select role'),
   status: yup.boolean()
 });
-const initialValues = ref({ id: '', name: '', email: '', status: true });
+const initialValues = ref({ id: '', name: '', email: '', role_id: null, status: true });
 
 onMounted(async () => {
+  store.state.spinner = true;
   await getUsers();
+  await getRoles();
+  store.state.spinner = false;
 });
 
 const getUsers = async () => {
-  store.state.spinner = true;
   const res = await store.dispatch('getUsers');
-  store.state.spinner = false;
   if (res.status == 'success') {
     for (const object of res.data) {
       object.label = object.status ? 'Activated' : 'Deactivated';
     }
     users.value = res.data;
+  }
+};
+
+const getRoles = async () => {
+  const res = await store.dispatch('getRoles');
+  if (res.status == 'success' && res.data.length > 0) {
+    roles.value = res.data;
   }
 };
 
@@ -188,12 +214,15 @@ const onSubmit = async (data: any, { resetForm }: any) => {
 };
 
 const handleModelVisibility = () => {
-  initialValues.value = { id: '', name: '', email: '', status: true };
+  initialValues.value = { id: '', name: '', email: '', role_id: null, status: true };
   visible.value = true;
 };
 </script>
 <style lang="scss">
-.user__add input {
-  width: 100%;
+.user__add {
+  input,
+  .p-dropdown {
+    width: 100%;
+  }
 }
 </style>

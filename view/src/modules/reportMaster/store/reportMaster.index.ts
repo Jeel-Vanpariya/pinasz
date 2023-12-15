@@ -88,7 +88,7 @@ export default{
             { key: '3-17', data: 'inspection', label: 'Inspection' },
             { key: '3-18', data: 'cust_po_no', label: 'Cust PO no' },
             { key: '3-19', data: 'number_of_container', label: 'Number of Container' },
-            { key: '3-20', data: 'adv_rec_date', label: 'Adv Rec DateTN' },
+            { key: '3-20', data: 'adv_rec_date', label: 'Adv Rec Date' },
             { key: '3-21', data: 'adv_pay_date', label: 'Adv Pay Date' },
             { key: '3-22', data: 'purchase_invoice', label: 'Purchase Invoice' },
             { key: '3-23', data: 'sale_invoice_val', label: 'Sale Invoice Val' },

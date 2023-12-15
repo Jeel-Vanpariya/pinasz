@@ -6,6 +6,7 @@ const checkAuth = async (to: any, _: any, next: NavigationGuardNext) => {
     store.state.spinner = true;
     const res = await store.dispatch('checkUser', { id: sessionStorage.getItem('user_id') });
     store.state.spinner = false;
+    if (res.data) store.state.permission = JSON.parse(res.data.permissions);
     if (res.status != 'success') {
       next({ name: 'UserLogin' });
       return;
@@ -14,6 +15,18 @@ const checkAuth = async (to: any, _: any, next: NavigationGuardNext) => {
       return;
     }
   } else if (to.name !== 'UserLogin') {
+    next({ name: 'UserLogin' });
+    return;
+  }
+  if (
+    (['ProductCategory', 'Products', 'AddProduct', 'EditProduct'].includes(to.name) && store.state.permission.product.length == 0) ||
+    (['SuppliersList', 'AddSupplier', 'EditSupplier'].includes(to.name) && store.state.permission.supplier.length == 0) ||
+    (['CustomersList', 'AddCustomer', 'EditCustomer'].includes(to.name) && store.state.permission.customer.length == 0) ||
+    (['ShipmentList', 'AddShipment', 'EditShipment'].includes(to.name) && store.state.permission.shipment.length == 0) ||
+    (['UsersList', 'CreateRole', 'EditRole', 'RoleList'].includes(to.name) && store.state.permission.user.length == 0) ||
+    (['ReportList', 'CreateReport', 'EditReportBlueprint', 'CreateReportBlueprint', 'ReportBlueprintList'].includes(to.name) && store.state.permission.report.length == 0) ||
+    store.state.permission.other.length == 0
+  ) {
     next({ name: 'UserLogin' });
     return;
   }
@@ -208,6 +221,24 @@ const router = createRouter({
       path: '/reports',
       name: 'ReportList',
       component: () => import('../modules/reportMaster/view/ReportList.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/create-role',
+      name: 'CreateRole',
+      component: () => import('../modules/roleMaster/view/AddRole.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/create-role/:id',
+      name: 'EditRole',
+      component: () => import('../modules/roleMaster/view/AddRole.vue'),
+      beforeEnter: checkAuth
+    },
+    {
+      path: '/roles',
+      name: 'RoleList',
+      component: () => import('../modules/roleMaster/view/RoleList.vue'),
       beforeEnter: checkAuth
     }
   ],

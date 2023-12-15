@@ -6,7 +6,7 @@
           <Button label="Sample CSV" icon="pi pi-cloud-download" severity="help" />
         </download-csv>
         <FileUpload v-if="false" class="mx-4" mode="basic" name="demo[]" accept="text/csv" :fileLimit="1" :auto="true" customUpload @uploader="onUpload" chooseLabel="Import CSV" />
-        <RouterLink :to="{ name: 'AddCustomer' }">
+        <RouterLink v-if="store.state.permission.customer.includes('add')" :to="{ name: 'AddCustomer' }">
           <Button label="Add Customer" icon="pi pi-plus" />
         </RouterLink>
       </div>
@@ -65,10 +65,10 @@
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
-            <RouterLink :to="{ name: 'EditCustomer', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.customer.includes('edit')" :to="{ name: 'EditCustomer', params: { id: slotProps.data.id } }">
               <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
             </RouterLink>
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteCustomer(slotProps.data.id)" />
+            <Button v-if="store.state.permission.customer.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteCustomer(slotProps.data.id)" />
           </div>
         </template>
       </Column>

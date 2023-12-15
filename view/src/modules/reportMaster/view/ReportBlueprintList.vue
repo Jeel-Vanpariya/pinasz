@@ -1,7 +1,7 @@
 <template>
   <Panel header="Products" class="p-4">
     <template #icons>
-      <RouterLink :to="{ name: 'CreateReportBlueprint' }">
+      <RouterLink v-if="store.state.permission.report.includes('blueprintAdd')" :to="{ name: 'CreateReportBlueprint' }">
         <Button label="Create Report Blueprint" icon="pi pi-plus" />
       </RouterLink>
     </template>
@@ -44,13 +44,13 @@
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
-            <RouterLink :to="{ name: 'CreateReport', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.report.includes('add')" :to="{ name: 'CreateReport', params: { id: slotProps.data.id } }">
               <Button icon="mdi mdi-chart-box-plus-outline" outlined rounded severity="success" v-tooltip.left="'Create Report'"/>
             </RouterLink>
-            <RouterLink :to="{ name: 'EditReportBlueprint', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.report.includes('blueprintEdit')" :to="{ name: 'EditReportBlueprint', params: { id: slotProps.data.id } }">
               <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
             </RouterLink>
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
+            <Button v-if="store.state.permission.report.includes('blueprintDelete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteProduct(slotProps.data.id)" />
           </div>
         </template>
       </Column>

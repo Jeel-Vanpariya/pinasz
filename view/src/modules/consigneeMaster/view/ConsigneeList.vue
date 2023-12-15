@@ -1,7 +1,7 @@
 <template>
   <Panel header="Consignees" class="p-4">
     <template #icons>
-      <RouterLink :to="{ name: 'AddConsignee' }">
+      <RouterLink v-if="store.state.permission.other.includes('add')" :to="{ name: 'AddConsignee' }">
         <Button label="Add" icon="pi pi-plus" />
       </RouterLink>
     </template>
@@ -71,10 +71,10 @@
       <Column :exportable="false" alignFrozen="right" :frozen="true">
         <template #body="slotProps">
           <div class="d-flex">
-            <RouterLink :to="{ name: 'EditConsignee', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.other.includes('edit')" :to="{ name: 'EditConsignee', params: { id: slotProps.data.id } }">
               <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
             </RouterLink>
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
+            <Button v-if="store.state.permission.other.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
           </div>
         </template>
       </Column>

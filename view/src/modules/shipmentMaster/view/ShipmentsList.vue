@@ -1,7 +1,7 @@
 <template>
   <Panel header="Shipments" class="p-4">
     <template #icons>
-      <RouterLink :to="{ name: 'AddShipment' }">
+      <RouterLink v-if="store.state.permission.shipment.includes('add')" :to="{ name: 'AddShipment' }">
         <Button label="Add Shipment" icon="pi pi-plus" />
       </RouterLink>
     </template>
@@ -337,10 +337,10 @@
         <template #body="slotProps">
           <div class="d-flex">
             <Button icon="pi pi-eye" outlined rounded severity="success" @click="getShipmentDetails(slotProps.data.id, slotProps.data.po_no)" />
-            <RouterLink :to="{ name: 'EditShipment', params: { id: slotProps.data.id } }">
+            <RouterLink v-if="store.state.permission.shipment.includes('edit')" :to="{ name: 'EditShipment', params: { id: slotProps.data.id } }">
               <Button icon="pi pi-pencil" outlined rounded class="mx-3" />
             </RouterLink>
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteShipment(slotProps.data.id)" />
+            <Button v-if="store.state.permission.shipment.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDeleteShipment(slotProps.data.id)" />
           </div>
         </template>
       </Column>

@@ -1,7 +1,7 @@
 <template>
   <Panel header="Destination Port" class="p-4">
     <template #icons>
-      <Button label="Add" icon="pi pi-plus" @click="handleButtonClick" />
+      <Button v-if="store.state.permission.other.includes('add')" label="Add" icon="pi pi-plus" @click="handleButtonClick" />
     </template>
     <DataTable :value="data" v-model:filters="filters" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" dataKey="id" removableSort paginator>
       <template #header>
@@ -27,8 +27,8 @@
       <Column :exportable="false">
         <template #body="slotProps">
           <div class="text-end">
-            <Button icon="pi pi-pencil" outlined rounded class="mx-3" @click="edit(slotProps.data)" />
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
+            <Button v-if="store.state.permission.other.includes('edit')" icon="pi pi-pencil" outlined rounded class="mx-3" @click="edit(slotProps.data)" />
+            <Button v-if="store.state.permission.other.includes('delete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(slotProps.data.id)" />
           </div>
         </template>
       </Column>

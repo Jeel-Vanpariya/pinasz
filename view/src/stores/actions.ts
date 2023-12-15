@@ -12,6 +12,7 @@ import destinationPortsMasterActions from '@/modules/destinationPortMaster/store
 import finalDestinationMasterActions from '@/modules/finalDestinationMaster/store/finalDestinationMaster.actions';
 import consigneeMasterActions from '@/modules/consigneeMaster/store/consigneeMaster.actions';
 import reportMasterActions from '@/modules/reportMaster/store/reportMaster.actions';
+import roleMasterActions from '@/modules/roleMaster/store/roleMaster.actions';
 import userAuth from '@/modules/UserAuth/store/userAuth.actions';
 import axios from 'axios';
 
@@ -70,5 +71,6 @@ export default {
   ...finalDestinationMasterActions,
   ...consigneeMasterActions,
   ...userAuth,
-  ...reportMasterActions
+  ...reportMasterActions,
+  ...roleMasterActions
 };

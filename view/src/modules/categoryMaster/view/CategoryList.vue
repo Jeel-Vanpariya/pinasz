@@ -1,7 +1,7 @@
 <template>
   <Panel header="Product Categories" class="p-4">
     <template #icons>
-      <Button label="Add Category" icon="pi pi-plus" @click="handleButtonClick" />
+      <Button v-if="store.state.permission.product.includes('categoryAdd')" label="Add Category" icon="pi pi-plus" @click="handleButtonClick" />
     </template>
     <TreeTable :value="data" :filters="filters" :filter-mode="filterMode.value" :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]" :paginator="true">
       <template #header>
@@ -20,9 +20,9 @@
       <Column :exportable="false">
         <template #body="{ node }">
           <div class="text-end">
-            <Button v-if="node.level" icon="pi pi-plus" outlined rounded severity="success" @click="add(node.key)" />
-            <Button icon="pi pi-pencil" outlined rounded class="mx-3" @click="edit(node)" />
-            <Button icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(node.key)" />
+            <Button v-if="node.level && store.state.permission.product.includes('categoryAdd')" icon="pi pi-plus" outlined rounded severity="success" @click="add(node.key)" />
+            <Button v-if="store.state.permission.product.includes('categoryEdit')" icon="pi pi-pencil" outlined rounded class="mx-3" @click="edit(node)" />
+            <Button v-if="store.state.permission.product.includes('categoryDelete')" icon="pi pi-trash" outlined rounded severity="danger" @click="confirmDelete(node.key)" />
           </div>
         </template>
       </Column>
