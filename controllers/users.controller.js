@@ -80,6 +80,7 @@ exports.getUsers = async (req, res) => {
     const response = await db.users.findAll({
       attributes: ["id", "email", "name", "role_id", [db.sequelize.col("role.name"), "role"]],
       raw: true,
+      where: { id: { [Op.ne]: 1 } },
       include: [
         {
           model: db.roles,

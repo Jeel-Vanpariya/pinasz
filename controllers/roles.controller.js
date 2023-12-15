@@ -1,8 +1,9 @@
+const { Op } = require("sequelize");
 const db = require("../sequelize/models/index.js");
 
 exports.getRoles = async (req, res) => {
   try {
-    const response = await db.roles.findAll();
+    const response = await db.roles.findAll({ where: { id: { [Op.ne]: 1 } } });
     res.send({ status: "success", data: response });
   } catch (error) {
     console.log(error);

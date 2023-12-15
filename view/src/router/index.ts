@@ -24,6 +24,7 @@ const checkAuth = async (to: any, _: any, next: NavigationGuardNext) => {
     (['CustomersList', 'AddCustomer', 'EditCustomer'].includes(to.name) && store.state.permission.customer.length == 0) ||
     (['ShipmentList', 'AddShipment', 'EditShipment'].includes(to.name) && store.state.permission.shipment.length == 0) ||
     (['UsersList', 'CreateRole', 'EditRole', 'RoleList'].includes(to.name) && store.state.permission.user.length == 0) ||
+    (['EditRole'].includes(to.name) && to.params.id == 1) ||
     (['ReportList', 'CreateReport', 'EditReportBlueprint', 'CreateReportBlueprint', 'ReportBlueprintList'].includes(to.name) && store.state.permission.report.length == 0) ||
     store.state.permission.other.length == 0
   ) {
