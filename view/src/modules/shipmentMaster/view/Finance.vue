@@ -2,7 +2,7 @@
   <div class="row mt-4 add__shipment__finance">
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('adv_rec_date') || (store.state.permission.shipment_edit.finance.includes('adv_rec_date') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('adv_rec_date') || (store.state.permission.shipment_edit.finance.includes('adv_rec_date') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="adv_rec_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -15,7 +15,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('adv_pay_date') || (store.state.permission.shipment_edit.finance.includes('adv_pay_date') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('adv_pay_date') || (store.state.permission.shipment_edit.finance.includes('adv_pay_date') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="adv_pay_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -29,7 +29,7 @@
     <div
       class="col-md-4"
       :class="[
-        store.state.permission.shipment_add.finance.includes('purchase_invoice') || (store.state.permission.shipment_edit.finance.includes('purchase_invoice') && $route.params.id) ? 'd-none' : ''
+        store.state.permission.shipment_add.finance.includes('purchase_invoice') || (store.state.permission.shipment_edit.finance.includes('purchase_invoice') && $route.params.id) ? '' : 'd-none'
       ]"
     >
       <Field name="purchase_invoice" v-slot="{ value, errorMessage, handleChange }">
@@ -44,7 +44,7 @@
     <div
       class="col-md-4 d-flex justify-content-between"
       :class="[
-        store.state.permission.shipment_add.finance.includes('sale_invoice_val') || (store.state.permission.shipment_edit.finance.includes('sale_invoice_val') && $route.params.id) ? 'd-none' : ''
+        store.state.permission.shipment_add.finance.includes('sale_invoice_val') || (store.state.permission.shipment_edit.finance.includes('sale_invoice_val') && $route.params.id) ? '' : 'd-none'
       ]"
     >
       <div>
@@ -79,7 +79,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('sale_inv_no') || (store.state.permission.shipment_edit.finance.includes('sale_inv_no') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('sale_inv_no') || (store.state.permission.shipment_edit.finance.includes('sale_inv_no') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="sale_inv_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -92,7 +92,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('s_f_inv_no') || (store.state.permission.shipment_edit.finance.includes('s_f_inv_no') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('s_f_inv_no') || (store.state.permission.shipment_edit.finance.includes('s_f_inv_no') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="s_f_inv_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -106,7 +106,7 @@
     <div
       class="col-md-4 d-flex justify-content-between"
       :class="[
-        store.state.permission.shipment_add.finance.includes('s_final_inv_value') || (store.state.permission.shipment_edit.finance.includes('s_final_inv_value') && $route.params.id) ? 'd-none' : ''
+        store.state.permission.shipment_add.finance.includes('s_final_inv_value') || (store.state.permission.shipment_edit.finance.includes('s_final_inv_value') && $route.params.id) ? '' : 'd-none'
       ]"
     >
       <div>
@@ -141,7 +141,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('final_rec_date') || (store.state.permission.shipment_edit.finance.includes('final_rec_date') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('final_rec_date') || (store.state.permission.shipment_edit.finance.includes('final_rec_date') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="final_rec_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -154,7 +154,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('final_pay_date') || (store.state.permission.shipment_edit.finance.includes('final_pay_date') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('final_pay_date') || (store.state.permission.shipment_edit.finance.includes('final_pay_date') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="final_pay_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -167,7 +167,7 @@
 
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('percentage') || (store.state.permission.shipment_edit.finance.includes('percentage') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('percentage') || (store.state.permission.shipment_edit.finance.includes('percentage') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="percentage" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -182,8 +182,8 @@
       class="col-md-4"
       :class="[
         store.state.permission.shipment_add.finance.includes('payment_request_lot') || (store.state.permission.shipment_edit.finance.includes('payment_request_lot') && $route.params.id)
-          ? 'd-none'
-          : ''
+          ? ''
+          : 'd-none'
       ]"
     >
       <Field name="payment_request_lot" v-slot="{ value, errorMessage, handleChange }">
@@ -197,7 +197,7 @@
 
     <div
       class="col-md-4 d-none"
-      :class="[store.state.permission.shipment_add.finance.includes('commission') || (store.state.permission.shipment_edit.finance.includes('commission') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('commission') || (store.state.permission.shipment_edit.finance.includes('commission') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="commission" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -218,7 +218,7 @@
 
     <div
       class="col-md-4 d-none"
-      :class="[store.state.permission.shipment_add.finance.includes('share') || (store.state.permission.shipment_edit.finance.includes('share') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('share') || (store.state.permission.shipment_edit.finance.includes('share') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="share" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
@@ -238,7 +238,7 @@
     </div>
     <div
       class="col-md-4"
-      :class="[store.state.permission.shipment_add.finance.includes('shipping_line') || (store.state.permission.shipment_edit.finance.includes('shipping_line') && $route.params.id) ? 'd-none' : '']"
+      :class="[store.state.permission.shipment_add.finance.includes('shipping_line') || (store.state.permission.shipment_edit.finance.includes('shipping_line') && $route.params.id) ? '' : 'd-none']"
     >
       <Field name="shipping_line_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
