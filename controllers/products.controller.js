@@ -226,6 +226,7 @@ exports.getProductForEdit = async ({ body: data }, res) => {
 exports.deleteProduct = async ({ body: data }, res) => {
   try {
     const response = await db.products.destroy({ where: { id: data.id } });
+    await db.product_supplier_map.destroy({ where: { product_id: data.id } });
     res.send({ status: "success", data: response });
   } catch (error) {
     console.log(error);

@@ -54,6 +54,7 @@ exports.getSupplierForEdit = async ({ body: data }, res) => {
 exports.deleteSupplier = async ({ body: data }, res) => {
   try {
     const response = await db.suppliers.destroy({ where: { id: data.id } });
+    await db.product_supplier_map.destroy({ where: { supplier_id: data.id } });
     res.send({ status: "success", data: response });
   } catch (error) {
     console.log(error);
