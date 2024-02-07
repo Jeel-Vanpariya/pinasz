@@ -1,6 +1,6 @@
 <template>
   <div class="row mt-4 add__shipment__preshipment">
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('country') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('country') && $route.params.id ? 'd-none' : '']">
       <Field name="country_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -19,7 +19,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4 row m-0 p-0" :class="[store.state.permission.shipment_edit.preShipment.includes('po_no') ? 'd-none' : '']">
+    <div class="col-md-4 row m-0 p-0" :class="[store.state.permission.shipment_edit.preShipment.includes('po_no') && $route.params.id ? 'd-none' : '']">
       <div class="col-md-10">
         <Field name="po_no" v-slot="{ value, errorMessage, handleChange }">
           <span class="p-float-label">
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supp_po_date') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supp_po_date') && $route.params.id ? 'd-none' : '']">
       <Field name="supp_po_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="supp_po_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -44,7 +44,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supplier') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supplier') && $route.params.id ? 'd-none' : '']">
       <Field name="supplier_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -64,7 +64,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('our_po_date') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('our_po_date') && $route.params.id ? 'd-none' : '']">
       <Field name="our_po_date" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Calendar id="our_po_date" :model-value="value" showIcon dateFormat="dd-mm-yy" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -74,7 +74,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('our_po_no') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('our_po_no') && $route.params.id ? 'd-none' : '']">
       <Field name="our_po_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="our_po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -84,7 +84,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('buyer') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('buyer') && $route.params.id ? 'd-none' : '']">
       <Field name="buyer_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -103,7 +103,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('customer') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('customer') && $route.params.id ? 'd-none' : '']">
       <Field name="customer_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -122,7 +122,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('cust_po_no') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('cust_po_no') && $route.params.id ? 'd-none' : '']">
       <Field name="cust_po_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Chips id="cust_po_no" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -132,7 +132,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('payment_term') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('payment_term') && $route.params.id ? 'd-none' : '']">
       <Field name="payment_term_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -151,7 +151,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supp_po_value') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('supp_po_value') && $route.params.id ? 'd-none' : '']">
       <Field name="supp_po_value" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="supp_po_value" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -161,7 +161,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('currency') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('currency') && $route.params.id ? 'd-none' : '']">
       <Field name="currency_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -180,7 +180,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('loading_port') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('loading_port') && $route.params.id ? 'd-none' : '']">
       <Field name="loading_port_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -199,7 +199,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('destination_port') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('destination_port') && $route.params.id ? 'd-none' : '']">
       <Field name="destination_port_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -218,7 +218,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('final_destination') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('final_destination') && $route.params.id ? 'd-none' : '']">
       <Field name="final_destination_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -237,7 +237,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('number_of_container') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('number_of_container') && $route.params.id ? 'd-none' : '']">
       <Field name="number_of_container" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="number_of_container" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -247,7 +247,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('sup_po_no') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('sup_po_no') && $route.params.id ? 'd-none' : '']">
       <Field name="sup_po_no" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <InputText id="sup_po_no" type="text" :model-value="value" :class="{ 'p-invalid': errorMessage }" @update:model-value="handleChange" />
@@ -257,7 +257,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('incoterm') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('incoterm') && $route.params.id ? 'd-none' : '']">
       <Field name="incoterm_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -276,7 +276,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('mode_of_transport') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('mode_of_transport') && $route.params.id ? 'd-none' : '']">
       <Field name="mode_of_transport_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown
@@ -295,7 +295,7 @@
       </Field>
     </div>
 
-    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('invoicing_party') ? 'd-none' : '']">
+    <div class="col-md-4" :class="[store.state.permission.shipment_edit.preShipment.includes('invoicing_party') && $route.params.id ? 'd-none' : '']">
       <Field name="invoicing_party_id" v-slot="{ value, errorMessage, handleChange }">
         <span class="p-float-label">
           <Dropdown

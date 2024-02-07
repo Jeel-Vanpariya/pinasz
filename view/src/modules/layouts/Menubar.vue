@@ -7,7 +7,7 @@
   </Menubar>
 </template>
 <script lang="ts" setup>
-import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { defineAsyncComponent, ref, watchEffect } from 'vue';
 import Menubar from 'primevue/menubar';
 import router from '@/router';
 import store from '@/stores';
@@ -82,7 +82,7 @@ const menuItems = ref([
     items: [
       {
         label: 'Roles',
-        command: () => router.push({ name: 'CreateRole' })
+        command: () => router.push({ name: 'RoleList' })
       },
       {
         label: 'Users',
@@ -105,7 +105,7 @@ const menuItems = ref([
   }
 ]);
 
-onMounted(() => {
+watchEffect(() => {
   if (!store.state.permission.other.includes('view')) menuItems.value.splice(0, 1);
   if (!store.state.permission.product.includes('view')|| !store.state.permission.product.includes('categoryView')) menuItems.value.splice(1, 1);
   if (!store.state.permission.supplier.includes('view')) menuItems.value.splice(2, 1);

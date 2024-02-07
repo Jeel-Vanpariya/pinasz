@@ -11,29 +11,31 @@
     </template>
     <Form ref="form" class="add__shipment" :validation-schema="schema" @submit="onSubmit">
       <TabView v-model:activeIndex="active">
-        <TabPanel :headerClass="[store.state.permission.shipment_edit.preShipment.length == 0 ? 'd-none' : '']">
+        <TabPanel :headerClass="[store.state.permission.shipment_edit.preShipment.length == 0 && $route.params.id ? 'd-none' : '']">
           <template #header>
             <span>Pre Shipment</span>
             <i class="mdi mdi-multiplication ms-1 text-danger" />
           </template>
-          <Preshipment :class="[store.state.permission.shipment_edit.preShipment.length == 0 ? 'd-none' : '']" @getFormValues="getFormValues" @setFormValues="setFormValues" />
+          <Preshipment @getFormValues="getFormValues" @setFormValues="setFormValues" />
           <Divider />
-          <PreshipmentContainer :class="[store.state.permission.shipment_edit.preShipment.length == 0 ? 'd-none' : '']" @getFormValues="getFormValues" />
+          <PreshipmentContainer :class="[store.state.permission.shipment_edit.preShipment.length == 0 && $route.params.id ? 'd-none' : '']" @getFormValues="getFormValues" />
         </TabPanel>
-        <TabPanel :headerClass="[store.state.permission.shipment_add.finance.length == 0 || store.state.permission.shipment_edit.finance.length == 0 ? 'd-none' : '']">
+        <TabPanel :headerClass="[store.state.permission.shipment_add.finance.length == 0 || (store.state.permission.shipment_edit.finance.length == 0 && $route.params.id) ? 'd-none' : '']">
           <template #header>
             <span>Finance</span>
           </template>
-          <Finance :class="[store.state.permission.shipment_add.finance.length == 0 || store.state.permission.shipment_edit.finance.length == 0 ? 'd-none' : '']"/>
+          <Finance :class="[store.state.permission.shipment_add.finance.length == 0 || (store.state.permission.shipment_edit.finance.length == 0 && $route.params.id) ? 'd-none' : '']" />
         </TabPanel>
-        <TabPanel :headerClass="[store.state.permission.shipment_edit.logistics.length == 0 ? 'd-none' : '']">
+        <TabPanel :headerClass="[store.state.permission.shipment_edit.logistics.length == 0 && $route.params.id ? 'd-none' : '']">
           <template #header>
             <span>Logistics</span>
             <i class="mdi mdi-multiplication ms-1 text-danger" />
           </template>
-          <Logistics :class="[store.state.permission.shipment_edit.logistics.length == 0 ? 'd-none' : '']"/>
+          <Logistics :class="[store.state.permission.shipment_edit.logistics.length == 0 && $route.params.id ? 'd-none' : '']" />
           <Divider />
-          <LogisticsContainer :class="[store.state.permission.shipment_add.logistics.length == 0 || store.state.permission.shipment_edit.logistics.length == 0 ? 'd-none' : '']"/>
+          <LogisticsContainer
+            :class="[store.state.permission.shipment_add.logistics.length == 0 || (store.state.permission.shipment_edit.logistics.length == 0 && $route.params.id) ? 'd-none' : '']"
+          />
         </TabPanel>
         <TabPanel v-if="route.params.id">
           <template #header>

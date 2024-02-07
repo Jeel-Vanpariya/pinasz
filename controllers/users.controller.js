@@ -78,7 +78,7 @@ exports.saveUser = async ({ body: data }, res) => {
 exports.getUsers = async (req, res) => {
   try {
     const response = await db.users.findAll({
-      attributes: ["id", "email", "name", "role_id", [db.sequelize.col("role.name"), "role"]],
+      attributes: ["id", "email", "name", "status", "role_id", [db.sequelize.col("role.name"), "role"]],
       raw: true,
       where: { id: { [Op.ne]: 1 } },
       include: [
